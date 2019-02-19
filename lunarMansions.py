@@ -11,6 +11,7 @@ Created on Nov 22, 2018
 '''
 # import datetime
 import pyastro
+#02/19/2019 modified with updated JPL keplerian elements from https://ssd.jpl.nasa.gov/txt/p_elem_t2.txt
 #pip install pyastro
 import time 
 import datetime
@@ -18,10 +19,22 @@ import ephem
 # https://rhodesmill.org/pyephem/  pip install ephem
 from astral import Astral
 import Tkinter as tk 
+from Tkinter import *
+import datetime
+
+# root = Tk() 
+# 
+# lab = Label(root)
+# lab.pack()
+
+
  
 # https://github.com/sffjunkie/astral   pip install astral
 # import swisseph as swe
 # from Planetaries import Hours
+root = tk.Tk()
+canvas = tk.Canvas(root, width=1900, height=1000, borderwidth=0, highlightthickness=0, bg="#d3d3d3")
+canvas.grid()
 
 
 city_name = 'Spruce Creek'
@@ -33,8 +46,12 @@ yester= time.localtime(time.time()-86400)
 # print time.localtime(time.time())
 morrow= time.localtime(time.time()+86400)
 
-localtime = time.asctime( time.localtime(time.time()) )
-# print localtime
+def timeUpdate():
+    return time.asctime( time.localtime(time.time()) )
+
+
+localtime = timeUpdate()
+print localtime
 
 todayDate=datetime.date.today()
 # print todayDate
@@ -298,7 +315,7 @@ def zodiacDegree(planetPosition):
     zodMinPos =  float(positionChrC)/60
     return zodDegPos + zodMinPos + zodSignDegree
     
-    
+   
 moPo = zodiacDegree(moonPosition)
 mePo = zodiacDegree(mercuryPosition)
 vePo = zodiacDegree(venusPosition)
@@ -309,17 +326,48 @@ saPo = zodiacDegree(saturnPosition)
 nePo = zodiacDegree(neptunePosition)
 urPo = zodiacDegree(uranusPosition)
 plPo = zodiacDegree(plutoPosition)
+#invert for clockwise rotation
 
-print "Moon:    ",moonPosition , moPo
-print "Mercury: ",mercuryPosition, mePo
-print "Venus:   ",venusPosition, vePo
-print "Sun:     ",solPosition, soPo 
-print "Mars:    ",marsPosition, maPo
-print "Jupiter: ",jupiterPosition, juPo
-print "Saturn:  ",saturnPosition, saPo
-print "Neptune: ",neptunePosition, nePo
-print "Uranus:  ",uranusPosition, urPo 
-print "Pluto:   ",plutoPosition, plPo 
+print hour, minute
+hourLargeDegree = -((360/12)*hour)
+print hourLargeDegree, "hourLargeDegree"
+print minute
+
+hourSmallDegree = float(minute/60.0)*-30.0
+print hourSmallDegree, "hourSmallDegree"
+#     hourHand = -((360/12)*hour)+(-30*(minute/60))
+hourHand = hourLargeDegree + hourSmallDegree
+
+print "hourHand", hourHand
+minuteHand = -((360/60)*minute) + (float(second/60.0)*-6.0)
+secondHand = -((360/60)*second)
+
+
+def update(): 
+    hour
+    print hour
+    minute
+    print minute
+    second
+    print second
+    print "Moon:    ",moonPosition , moPo
+    print "Mercury: ",mercuryPosition, mePo
+    print "Venus:   ",venusPosition, vePo
+    print "Sun:     ",solPosition, soPo 
+    print "Mars:    ",marsPosition, maPo
+    print "Jupiter: ",jupiterPosition, juPo
+    print "Saturn:  ",saturnPosition, saPo
+    print "Neptune: ",neptunePosition, nePo
+    print "Uranus:  ",uranusPosition, urPo 
+    print "Pluto:   ",plutoPosition, plPo 
+#     hourHand = -((360/12)*hour)+(30*(minute/60))
+    print hourHand 
+    print minuteHand
+    print secondHand
+    print localtime
+   
+    root.after(1000, update)  
+    return
 
  
 
@@ -328,9 +376,9 @@ print "Pluto:   ",plutoPosition, plPo
 # print ms
 
 # from tkinter import *
-root = tk.Tk()
-canvas = tk.Canvas(root, width=1900, height=1000, borderwidth=0, highlightthickness=0, bg="#d3d3d3")
-canvas.grid()
+# root = tk.Tk()
+# canvas = tk.Canvas(root, width=1900, height=1000, borderwidth=0, highlightthickness=0, bg="#d3d3d3")
+# canvas.grid()
 
 def _create_circle(self, x, y, r, **kwargs):
     return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
@@ -343,133 +391,222 @@ def _create_circle_arc(self, x, y, r, **kwargs):
     return self.create_arc(x-r, y-r, x+r, y+r, **kwargs)
 tk.Canvas.create_circle_arc = _create_circle_arc
 
-canvas.create_circle(950, 500, 450, fill="white", outline="#000000", width=20)
 
+def App():
+    hour
+    minute
+    second
+ 
+#offset 90 moves Aries 0 to 12 o'clock  position
+#     offSet = 0
+    offSet = 90
+#     offSet = -90
+#     offSet = 180
+
+#outer clock rim
+    canvas.create_circle(950, 500, 495, fill="white", outline="#000000", width=5)
+    
+#  minute tick  
+    for m in range(0,360,6): 
+        
+        canvas.create_circle_arc(950, 500, 473, fill="#0000FF", outline="#000000", start=m-1, end=m)
+#         m=m+6
+        print (m)
+ 
+#  hour tick  
+    for m in range(0,360,30): 
+        
+        canvas.create_circle_arc(950, 500, 490, fill="#000000", outline="#000000", start=m-1, end=m)
+#         m=m+6
+        print (m)
+   
 #processed lunar mansions
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=0+33, end=12+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=12+33, end=25+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=25+33, end=38.5+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=38.5+33, end=52+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=52+33, end=64+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=64+33, end=77.5+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=77.5+33, end=90+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=90+33, end=102+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=102+33, end=115+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=115+33, end=128.5+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=128.5+33, end=142+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=142+33, end=154+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=154+33, end=167.5+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=167.5+33, end=180+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=180+33, end=192+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=192+33, end=205+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=205+33, end=218.5+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=218.5+33, end=232+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=232+33, end=244+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=244+33, end=257.5+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=257.5+33, end=270+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=270+33, end=282+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=282+33, end=295+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=295+33, end=308.5+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=308.5+33, end=322+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=322+33, end=334+33)
-canvas.create_circle_arc(950, 500, 433, fill="#fffff0", outline="#dcdcdc", start=334+33, end=347.5+33)
-canvas.create_circle_arc(950, 500, 433, fill="white", outline="#dcdcdc", start=347.5+33, end=360+33)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=0+33+offSet, end=12+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=12+33+offSet, end=25+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=25+33+offSet, end=38.5+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=38.5+33+offSet, end=52+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=52+33+offSet, end=64+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=64+33+offSet, end=77.5+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=77.5+33+offSet, end=90+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=90+33+offSet, end=102+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=102+33+offSet, end=115+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=115+33+offSet, end=128.5+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=128.5+33+offSet, end=142+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=142+33+offSet, end=154+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=154+33+offSet, end=167.5+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=167.5+33+offSet, end=180+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=180+33+offSet, end=192+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=192+33+offSet, end=205+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=205+33+offSet, end=218.5+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=218.5+33+offSet, end=232+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=232+33+offSet, end=244+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=244+33+offSet, end=257.5+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=257.5+33+offSet, end=270+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=270+33+offSet, end=282+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=282+33+offSet, end=295+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=295+33+offSet, end=308.5+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=308.5+33+offSet, end=322+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=322+33+offSet, end=334+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=334+33+offSet, end=347.5+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=347.5+33+offSet, end=360+33+offSet)
+    
+    
+#traditional lunar mansions
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=0+offSet, end=12+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=12+offSet, end=25+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=25+offSet, end=38.5+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=38.5+offSet, end=52+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=52+offSet, end=64+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=64+offSet, end=77.5+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=77.5+offSet, end=90+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=90+offSet, end=102+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=102+offSet, end=115+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=115+offSet, end=128.5+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=128.5+offSet, end=142+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=142+offSet, end=154+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=154+offSet, end=167.5+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=167.5+offSet, end=180+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=180+offSet, end=192+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=192+offSet, end=205+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=205+offSet, end=218.5+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=218.5+offSet, end=232+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=232+offSet, end=244+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=244+offSet, end=257.5+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=257.5+offSet, end=270+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=270+offSet, end=282+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=282+offSet, end=295+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=295+offSet, end=308.5+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=308.5+offSet, end=322+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=322+offSet, end=334+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=334+offSet, end=347.5+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=347.5+offSet, end=360+offSet)
+  
+#planetary clock hands bottom layer 
+
+    canvas.create_circle_arc(950, 500, 475, fill="#8b0000", outline="", start=plPo-1+offSet, end=plPo+offSet)
+    canvas.create_circle_arc(950, 500, 475, fill="#006400", outline="", start=urPo-1+offSet, end=urPo+offSet)
+    canvas.create_circle_arc(950, 500, 475, fill="blue", outline="", start=nePo-1+offSet, end=nePo+offSet)
+    canvas.create_circle_arc(950, 500, 475, fill="#8A2BE2", outline="", start=saPo-1+offSet, end=saPo+offSet)
+    canvas.create_circle_arc(950, 500, 475, fill="#EE82EE", outline="", start=juPo-1+offSet, end=juPo+offSet)
+    canvas.create_circle_arc(950, 500, 475, fill="#FF0000", outline="", start=maPo-1+offSet, end=maPo+offSet)
+    canvas.create_circle_arc(950, 500, 475, fill="#FFA500", outline="", start=soPo-1+offSet, end=soPo+offSet)
+    canvas.create_circle_arc(950, 500, 475, fill="#008000", outline="", start=vePo-1+offSet, end=vePo+offSet)
+    canvas.create_circle_arc(950, 500, 475, fill="#FFFF00", outline="", start=mePo-1+offSet, end=mePo+offSet)     
+    canvas.create_circle_arc(950, 500, 475, fill="#c0c0c0", outline="", start=moPo-1+offSet, end=moPo+offSet)
+
+    
+    
+    
+    #backround cover
+    canvas.create_circle(950, 500, 275, fill="white", outline="white", width=10)
+    canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=moPo-5+offSet, end=moPo+offSet)
+    canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=mePo-5+offSet, end=mePo+offSet)
+    canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=vePo-5+offSet, end=vePo+offSet)
+    canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=soPo-5+offSet, end=soPo+offSet)
+    canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=maPo-5+offSet, end=maPo+offSet)
+    canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=juPo-5+offSet, end=juPo+offSet)
+    canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=saPo-5+offSet, end=saPo+offSet)
+    canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=nePo-5+offSet, end=nePo+offSet)
+    canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=urPo-5+offSet, end=urPo+offSet)
+    canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=plPo-5+offSet, end=plPo+offSet)
+
+    #seasonzodiac boundaries
+    
+    canvas.create_circle_arc(950, 500, 390, fill="#191970", outline="#000000", start=0+offSet, end=90+offSet)
+    canvas.create_circle_arc(950, 500, 390, fill="#FF0000", outline="#000000", start=90+offSet, end=1800+offSet)
+    canvas.create_circle_arc(950, 500, 390, fill="#808000", outline="#000000", start=180+offSet, end=270+offSet)
+    canvas.create_circle_arc(950, 500, 390, fill="#FFFF00", outline="#000000", start=270+offSet, end=360+offSet)
+    
+    #zodiac boundaries
+    
+    canvas.create_circle_arc(950, 500, 370, fill="#FF0000", outline="#000000", start=0+offSet, end=30+offSet)
+    canvas.create_circle_arc(950, 500, 370, fill="#808000", outline="#000000", start=30+offSet, end=60+offSet)
+    canvas.create_circle_arc(950, 500, 370, fill="#FFFF00", outline="#000000", start=60+offSet, end=90+offSet)
+    canvas.create_circle_arc(950, 500, 370, fill="#191970", outline="#000000", start=90+offSet, end=120+offSet)
+    canvas.create_circle_arc(950, 500, 370, fill="#FF0000", outline="#000000", start=120+offSet, end=150+offSet)
+    canvas.create_circle_arc(950, 500, 370, fill="#808000", outline="#000000", start=150+offSet, end=180+offSet)
+    canvas.create_circle_arc(950, 500, 370, fill="#FFFF00", outline="#000000", start=180+offSet, end=210+offSet)
+    canvas.create_circle_arc(950, 500, 370, fill="#191970", outline="#000000", start=210+offSet, end=240+offSet)
+    canvas.create_circle_arc(950, 500, 370, fill="#FF0000", outline="#000000", start=240+offSet, end=270+offSet)
+    canvas.create_circle_arc(950, 500, 370, fill="#808000", outline="#000000", start=270+offSet, end=300+offSet)
+    canvas.create_circle_arc(950, 500, 370, fill="#FFFF00", outline="#000000", start=300+offSet, end=330+offSet)
+    canvas.create_circle_arc(950, 500, 370, fill="#191970", outline="#000000", start=330+offSet, end=360+offSet)
+
+#  decan tick  
+    for m in range(0,360,10): 
+        
+        canvas.create_circle_arc(950, 500, 380, fill="#000000", outline="#000000", start=m, end=m)
+#         m=m+6
+        print (m)
 
 
-#lunar mansions
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=0, end=12)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=12, end=25)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=25, end=38.5)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=38.5, end=52)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=52, end=64)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=64, end=77.5)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=77.5, end=90)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=90, end=102)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=102, end=115)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=115, end=128.5)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=128.5, end=142)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=142, end=154)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=154, end=167.5)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=167.5, end=180)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=180, end=192)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=192, end=205)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=205, end=218.5)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=218.5, end=232)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=232, end=244)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=244, end=257.5)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=257.5, end=270)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=270, end=282)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=282, end=295)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=295, end=308.5)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=308.5, end=322)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=322, end=334)
-canvas.create_circle_arc(950, 500, 420, fill="#fffff0", outline="#dcdcdc", start=334, end=347.5)
-canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=347.5, end=360)
+#inner circle    
+    canvas.create_circle(950, 500, 340, fill="white", outline="white", width=10)
+        
+    #planetary planet hands top layer
+    canvas.create_circle_arc(950, 500, 420, fill="#8b0000", outline="", start=plPo-1+offSet, end=plPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#006400", outline="", start=urPo-1+offSet, end=urPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="blue", outline="", start=nePo-1+offSet, end=nePo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#8A2BE2", outline="", start=saPo-1+offSet, end=saPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#EE82EE", outline="", start=juPo-1+offSet, end=juPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#FF0000", outline="", start=maPo-1+offSet, end=maPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#FFA500", outline="", start=soPo-1+offSet, end=soPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#008000", outline="", start=vePo-1+offSet, end=vePo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#FFFF00", outline="", start=mePo-1+offSet, end=mePo+offSet)    
+    canvas.create_circle_arc(950, 500, 420, fill="#c0c0c0", outline="", start=moPo-1+offSet, end=moPo+offSet)
+
+      
+    #clock
+#     #invert for clockwise rotation
+# 
+#     print hour, minute
+#     hourLargeDegree = -((360/12)*hour)
+#     print hourLargeDegree, "hourLargeDegree"
+#     print minute
+#     
+#     hourSmallDegree = float(minute/60.0)*-30.0
+#     print hourSmallDegree, "hourSmallDegree"
+# #     hourHand = -((360/12)*hour)+(-30*(minute/60))
+#     hourHand = hourLargeDegree + hourSmallDegree
+# 
+#     print "hourHand", hourHand
+#     minuteHand = -((360/60)*minute)
+#     secondHand = -((360/60)*second)
+    canvas.create_circle_arc(950, 500, 390, fill="black", outline="", start=(hourHand -5+offSet), end=(hourHand+offSet))
+    canvas.create_circle_arc(950, 500, 450, fill="black", outline="", start=(minuteHand -2+offSet), end=(minuteHand+offSet))
+    canvas.create_circle_arc(950, 500, 495, fill="black", outline="", start=(secondHand -1+offSet), end=(secondHand+offSet))
+    
+    
+#     canvas.create_circle_arc(500, 400, 100, style="arc", outline="white", width=6, start=270-25, end=270+25)
+#     canvas.create_circle(500, 400, 20, fill="#BBB", outline="")
+    localtime
+    time
+#     root.after(1000, update)
+    root.wm_title("astronomical lunar mansion clock")
+    doog = (App)
+    root.after(1000, doog)
+    return
 
 
-#dali?
 
-canvas.create_circle_arc(950, 500, 420, fill="#c0c0c0", outline="", start=moPo-2, end=moPo)
-canvas.create_circle_arc(950, 500, 420, fill="#FFFF00", outline="", start=mePo-2, end=mePo)
-canvas.create_circle_arc(950, 500, 420, fill="#008000", outline="", start=vePo-2, end=vePo)
-canvas.create_circle_arc(950, 500, 420, fill="#FFA500", outline="", start=soPo-2, end=soPo)
-canvas.create_circle_arc(950, 500, 420, fill="#FF0000", outline="", start=maPo-2, end=maPo)
-canvas.create_circle_arc(950, 500, 420, fill="#EE82EE", outline="", start=juPo-2, end=juPo)
-canvas.create_circle_arc(950, 500, 420, fill="#8A2BE2", outline="", start=saPo-2, end=saPo)
-canvas.create_circle_arc(950, 500, 420, fill="blue", outline="", start=nePo-2, end=nePo)
-canvas.create_circle_arc(950, 500, 420, fill="#006400", outline="", start=urPo-2, end=urPo)
-canvas.create_circle_arc(950, 500, 420, fill="red", outline="", start=plPo-2, end=plPo)
+def clock():
+    time = datetime.datetime.now().strftime("Time: %H:%M:%S")
+    lab.config(text=time)
+    #lab['text'] = time
+    root.after(1000, clock) # run itself again after 1000 ms
 
+# run first time
+# clock()    
 
-
-#backround cover
-canvas.create_circle(950, 500, 150, fill="white", outline="white", width=10)
-canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=moPo-5, end=moPo)
-canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=mePo-5, end=mePo)
-canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=vePo-5, end=vePo)
-canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=soPo-5, end=soPo)
-canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=maPo-5, end=maPo)
-canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=juPo-5, end=juPo)
-canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=saPo-5, end=saPo)
-canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=nePo-5, end=nePo)
-canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=urPo-5, end=urPo)
-canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=plPo-5, end=plPo)
-
-#zodiac boundaries
-
-canvas.create_circle_arc(950, 500, 380, fill="#FF0000", outline="#dcdcdc", start=0, end=30)
-canvas.create_circle_arc(950, 500, 380, fill="#808000", outline="#dcdcdc", start=30, end=60)
-canvas.create_circle_arc(950, 500, 380, fill="#FFFF00", outline="#dcdcdc", start=60, end=90)
-canvas.create_circle_arc(950, 500, 380, fill="#191970", outline="#dcdcdc", start=90, end=120)
-canvas.create_circle_arc(950, 500, 380, fill="#FF0000", outline="#dcdcdc", start=120, end=150)
-canvas.create_circle_arc(950, 500, 380, fill="#808000", outline="#dcdcdc", start=150, end=180)
-canvas.create_circle_arc(950, 500, 380, fill="#FFFF00", outline="#dcdcdc", start=180, end=210)
-canvas.create_circle_arc(950, 500, 380, fill="#191970", outline="#dcdcdc", start=210, end=240)
-canvas.create_circle_arc(950, 500, 380, fill="#FF0000", outline="#dcdcdc", start=240, end=270)
-canvas.create_circle_arc(950, 500, 380, fill="#808000", outline="#dcdcdc", start=270, end=300)
-canvas.create_circle_arc(950, 500, 380, fill="#FFFF00", outline="#dcdcdc", start=300, end=330)
-canvas.create_circle_arc(950, 500, 380, fill="#191970", outline="#dcdcdc", start=330, end=360)
-
-canvas.create_circle(950, 500, 325, fill="white", outline="white", width=10)
-
-
-#dali?
-
-canvas.create_circle_arc(950, 500, 420, fill="#c0c0c0", outline="", start=moPo-2, end=moPo)
-canvas.create_circle_arc(950, 500, 420, fill="#FFFF00", outline="", start=mePo-2, end=mePo)
-canvas.create_circle_arc(950, 500, 420, fill="#008000", outline="", start=vePo-2, end=vePo)
-canvas.create_circle_arc(950, 500, 420, fill="#FFA500", outline="", start=soPo-2, end=soPo)
-canvas.create_circle_arc(950, 500, 420, fill="#FF0000", outline="", start=maPo-2, end=maPo)
-canvas.create_circle_arc(950, 500, 420, fill="#EE82EE", outline="", start=juPo-2, end=juPo)
-canvas.create_circle_arc(950, 500, 420, fill="#8A2BE2", outline="", start=saPo-2, end=saPo)
-canvas.create_circle_arc(950, 500, 420, fill="blue", outline="", start=nePo-2, end=nePo)
-canvas.create_circle_arc(950, 500, 420, fill="#006400", outline="", start=urPo-2, end=urPo)
-canvas.create_circle_arc(950, 500, 420, fill="red", outline="", start=plPo-2, end=plPo)
-
-
-# canvas.create_circle_arc(500, 400, 100, style="arc", outline="white", width=6, start=270-25, end=270+25)
-# canvas.create_circle(500, 400, 20, fill="#BBB", outline="")
-
-root.wm_title("Circles and Arcs")
+App() 
+root.after(1000, update)
 root.mainloop()
 
+
+# 
+# def main():
+#     app = App()
+#     app.mainloop()
+# 
+# if __name__ == "__main__":
+#     main()
