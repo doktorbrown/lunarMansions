@@ -11,7 +11,7 @@ Created on Nov 22, 2018
 '''
 # import datetime
 import pyastro
-#02/19/2019 modified with updated JPL keplerian elements from https://ssd.jpl.nasa.gov/txt/p_elem_t2.txt
+#02/22/2019 modified with updated JPL keplerian elements from https://ssd.jpl.nasa.gov/txt/p_elem_t2.txt
 #pip install pyastro
 import time 
 import datetime
@@ -215,74 +215,12 @@ moonLoc = (mc.ra, mc.dec)
 print "Moon is in",moonConstellation[1]
 print moonCheck(a, year, month, day)
 
-# print datetime.datetime(),"datetime.datetime"
-
-
-dtime = datetime.datetime(year, month, day, hour, minute, second, 0, pyastro.UTC())
-# print year
-# print month
-# print day
-# print hour 
-# print minute
-print dtime, "dtime now"
-mon = pyastro.Moon(dtime)
-mer = pyastro.Mercury(dtime)
-ven = pyastro.Venus(dtime)
-sol = pyastro.Sun(dtime)
-mar = pyastro.Mars(dtime)
-jup = pyastro.Jupiter(dtime)
-sat = pyastro.Saturn(dtime)
-nep = pyastro.Neptune(dtime)
-ura = pyastro.Uranus(dtime)
-plu = pyastro.Pluto(dtime)
-
-
-monrasc = (mon.right_ascension(formatted=False))
-# ms=mon.rec_to_sph()
-merrasc = (mer.right_ascension(formatted=False))
-venrasc = (ven.right_ascension(formatted=False))
-solrasc = (sol.right_ascension(formatted=False))
-marrasc = (mar.right_ascension(formatted=False))
-juprasc = (jup.right_ascension(formatted=False))
-satrasc = (sat.right_ascension(formatted=False))
-neprasc = (nep.right_ascension(formatted=False))
-urarasc = (ura.right_ascension(formatted=False))
-plurasc = (plu.right_ascension(formatted=False))
-
-
-moonPosition = pyastro.rasc_to_zodiac(monrasc)
-mercuryPosition = pyastro.rasc_to_zodiac(merrasc)
-venusPosition = pyastro.rasc_to_zodiac(venrasc)
-solPosition = pyastro.rasc_to_zodiac(solrasc)
-marsPosition = pyastro.rasc_to_zodiac(marrasc)
-jupiterPosition = pyastro.rasc_to_zodiac(juprasc)
-saturnPosition = pyastro.rasc_to_zodiac(satrasc)
-neptunePosition = pyastro.rasc_to_zodiac(neprasc)
-uranusPosition = pyastro.rasc_to_zodiac(urarasc)
-plutoPosition = pyastro.rasc_to_zodiac(plurasc)
-
-
-# print "Moon:    ",moonPosition 
-# print "Mercury: ",mercuryPosition
-# print "Venus:   ",venusPosition 
-# print "Sun:     ",solPosition 
-# print "Mars:    ",marsPosition
-# print "Jupiter: ",jupiterPosition
-# print "Saturn:  ",saturnPosition
-# print "Neptune: ",neptunePosition
-# print "Uranus:  ",uranusPosition 
-# print "Pluto:   ",plutoPosition 
 
 
 def zodiacDegree(planetPosition):
 
     planetPositionString = str(planetPosition)
-#     print planetPositionString[0]
-#     print planetPositionString[1]
-#     print planetPositionString[2]
-#     print planetPositionString[3]
-#     print planetPositionString[4]
-#     print planetPositionString[5]
+
     positionChrA = planetPositionString[0] + planetPositionString[1]
     positionChrB = planetPositionString[2] + planetPositionString[3]
     positionChrC = planetPositionString[4] + planetPositionString[5]
@@ -300,7 +238,7 @@ def zodiacDegree(planetPosition):
         zodSignDegree = 120
     elif str(positionChrB) == "VI":
         zodSignDegree = 150
-    elif str(positionChrB) == "LB":
+    elif str(positionChrB) == "LI":
         zodSignDegree = 180
     elif str(positionChrB) == "SC":
         zodSignDegree = 210
@@ -313,72 +251,9 @@ def zodiacDegree(planetPosition):
     else:
         zodSignDegree = 330
     zodMinPos =  float(positionChrC)/60
-    return zodDegPos + zodMinPos + zodSignDegree
+    zD = zodDegPos + zodMinPos + zodSignDegree
+    return zD
     
-   
-moPo = zodiacDegree(moonPosition)
-mePo = zodiacDegree(mercuryPosition)
-vePo = zodiacDegree(venusPosition)
-soPo = zodiacDegree(solPosition)
-maPo = zodiacDegree(marsPosition)
-juPo = zodiacDegree(jupiterPosition)
-saPo = zodiacDegree(saturnPosition)
-nePo = zodiacDegree(neptunePosition)
-urPo = zodiacDegree(uranusPosition)
-plPo = zodiacDegree(plutoPosition)
-#invert for clockwise rotation
-
-print hour, minute
-hourLargeDegree = -((360/12)*hour)
-print hourLargeDegree, "hourLargeDegree"
-print minute
-
-hourSmallDegree = float(minute/60.0)*-30.0
-print hourSmallDegree, "hourSmallDegree"
-#     hourHand = -((360/12)*hour)+(-30*(minute/60))
-hourHand = hourLargeDegree + hourSmallDegree
-
-print "hourHand", hourHand
-minuteHand = -((360/60)*minute) + (float(second/60.0)*-6.0)
-secondHand = -((360/60)*second)
-
-
-def update(): 
-    hour
-    print hour
-    minute
-    print minute
-    second
-    print second
-    print "Moon:    ",moonPosition , moPo
-    print "Mercury: ",mercuryPosition, mePo
-    print "Venus:   ",venusPosition, vePo
-    print "Sun:     ",solPosition, soPo 
-    print "Mars:    ",marsPosition, maPo
-    print "Jupiter: ",jupiterPosition, juPo
-    print "Saturn:  ",saturnPosition, saPo
-    print "Neptune: ",neptunePosition, nePo
-    print "Uranus:  ",uranusPosition, urPo 
-    print "Pluto:   ",plutoPosition, plPo 
-#     hourHand = -((360/12)*hour)+(30*(minute/60))
-    print hourHand 
-    print minuteHand
-    print secondHand
-    print localtime
-   
-    root.after(1000, update)  
-    return
-
- 
-
-
-# print pyastro.positions(dtime)
-# print ms
-
-# from tkinter import *
-# root = tk.Tk()
-# canvas = tk.Canvas(root, width=1900, height=1000, borderwidth=0, highlightthickness=0, bg="#d3d3d3")
-# canvas.grid()
 
 def _create_circle(self, x, y, r, **kwargs):
     return self.create_oval(x-r, y-r, x+r, y+r, **kwargs)
@@ -393,9 +268,95 @@ tk.Canvas.create_circle_arc = _create_circle_arc
 
 
 def App():
-    hour
-    minute
-    second
+    time = datetime.datetime.now().strftime("Time: %H:%M:%S")
+    print time, "this is the mofo"
+    hour = int(datetime.datetime.now().strftime("%H"))
+    minute = int(datetime.datetime.now().strftime("%M"))
+    second = int(datetime.datetime.now().strftime("%S"))
+    root.update_idletasks() 
+    #positions
+
+    dtime = datetime.datetime(year, month, day, hour, minute, second, 0, pyastro.UTC())
+    # print year
+    # print month
+    # print day
+    # print hour 
+    # print minute
+    print dtime, "dtime now"
+    mon = pyastro.Moon(dtime)
+    mer = pyastro.Mercury(dtime)
+    ven = pyastro.Venus(dtime)
+    sol = pyastro.Sun(dtime)
+    mar = pyastro.Mars(dtime)
+    jup = pyastro.Jupiter(dtime)
+    sat = pyastro.Saturn(dtime)
+    nep = pyastro.Neptune(dtime)
+    ura = pyastro.Uranus(dtime)
+    plu = pyastro.Pluto(dtime)
+    
+    root.update_idletasks()    
+    monrasc = (mon.right_ascension(formatted=False))
+    # ms=mon.rec_to_sph()
+    merrasc = (mer.right_ascension(formatted=False))
+    venrasc = (ven.right_ascension(formatted=False))
+    solrasc = (sol.right_ascension(formatted=False))
+    marrasc = (mar.right_ascension(formatted=False))
+    juprasc = (jup.right_ascension(formatted=False))
+    satrasc = (sat.right_ascension(formatted=False))
+    neprasc = (nep.right_ascension(formatted=False))
+    urarasc = (ura.right_ascension(formatted=False))
+    plurasc = (plu.right_ascension(formatted=False))
+    
+    
+    moonPosition = pyastro.rasc_to_zodiac(monrasc)
+    mercuryPosition = pyastro.rasc_to_zodiac(merrasc)
+    venusPosition = pyastro.rasc_to_zodiac(venrasc)
+    solPosition = pyastro.rasc_to_zodiac(solrasc)
+    marsPosition = pyastro.rasc_to_zodiac(marrasc)
+    jupiterPosition = pyastro.rasc_to_zodiac(juprasc)
+    saturnPosition = pyastro.rasc_to_zodiac(satrasc)
+    neptunePosition = pyastro.rasc_to_zodiac(neprasc)
+    uranusPosition = pyastro.rasc_to_zodiac(urarasc)
+    plutoPosition = pyastro.rasc_to_zodiac(plurasc)
+    
+    
+    # print "Moon:    ",moonPosition 
+    # print "Mercury: ",mercuryPosition
+    # print "Venus:   ",venusPosition 
+    # print "Sun:     ",solPosition 
+    # print "Mars:    ",marsPosition
+    # print "Jupiter: ",jupiterPosition
+    # print "Saturn:  ",saturnPosition
+    # print "Neptune: ",neptunePosition
+    # print "Uranus:  ",uranusPosition 
+    # print "Pluto:   ",plutoPosition 
+    
+    moPo = zodiacDegree(moonPosition)
+    mePo = zodiacDegree(mercuryPosition)
+    vePo = zodiacDegree(venusPosition)
+    soPo = zodiacDegree(solPosition)
+    maPo = zodiacDegree(marsPosition)
+    juPo = zodiacDegree(jupiterPosition)
+    saPo = zodiacDegree(saturnPosition)
+    nePo = zodiacDegree(neptunePosition)
+    urPo = zodiacDegree(uranusPosition)
+    plPo = zodiacDegree(plutoPosition)
+    #invert for clockwise rotation
+    
+#     print hour, minute
+    hourLargeDegree = -((360/12)*hour)
+#     print hourLargeDegree, "hourLargeDegree"
+#     print minute
+    
+    hourSmallDegree = float(minute/60.0)*-30.0
+#     print hourSmallDegree, "hourSmallDegree"
+    #     hourHand = -((360/12)*hour)+(-30*(minute/60))
+    hourHand = hourLargeDegree + hourSmallDegree
+    
+#     print "hourHand", hourHand
+    minuteHand = -((360/60)*minute) + (float(second/60.0)*-6.0)
+    secondHand = -((360/60)*second)
+    root.update_idletasks()    
  
 #offset 90 moves Aries 0 to 12 o'clock  position
 #     offSet = 0
@@ -411,14 +372,14 @@ def App():
         
         canvas.create_circle_arc(950, 500, 473, fill="#0000FF", outline="#000000", start=m-1, end=m)
 #         m=m+6
-        print (m)
+#         print (m)
  
 #  hour tick  
     for m in range(0,360,30): 
         
         canvas.create_circle_arc(950, 500, 490, fill="#000000", outline="#000000", start=m-1, end=m)
 #         m=m+6
-        print (m)
+#         print (m)
    
 #processed lunar mansions
     canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=0+33+offSet, end=12+33+offSet)
@@ -449,7 +410,7 @@ def App():
     canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=322+33+offSet, end=334+33+offSet)
     canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=334+33+offSet, end=347.5+33+offSet)
     canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=347.5+33+offSet, end=360+33+offSet)
-    
+    root.update_idletasks()    
     
 #traditional lunar mansions
     canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=0+offSet, end=12+offSet)
@@ -495,7 +456,7 @@ def App():
     canvas.create_circle_arc(950, 500, 475, fill="#c0c0c0", outline="", start=moPo-1+offSet, end=moPo+offSet)
 
     
-    
+    App.update_idletasks()    
     
     #backround cover
     canvas.create_circle(950, 500, 275, fill="white", outline="white", width=10)
@@ -537,7 +498,7 @@ def App():
         
         canvas.create_circle_arc(950, 500, 380, fill="#000000", outline="#000000", start=m, end=m)
 #         m=m+6
-        print (m)
+#        print (m)
 
 
 #inner circle    
@@ -555,55 +516,36 @@ def App():
     canvas.create_circle_arc(950, 500, 420, fill="#FFFF00", outline="", start=mePo-1+offSet, end=mePo+offSet)    
     canvas.create_circle_arc(950, 500, 420, fill="#c0c0c0", outline="", start=moPo-1+offSet, end=moPo+offSet)
 
-      
-    #clock
-#     #invert for clockwise rotation
-# 
-#     print hour, minute
-#     hourLargeDegree = -((360/12)*hour)
-#     print hourLargeDegree, "hourLargeDegree"
-#     print minute
-#     
-#     hourSmallDegree = float(minute/60.0)*-30.0
-#     print hourSmallDegree, "hourSmallDegree"
-# #     hourHand = -((360/12)*hour)+(-30*(minute/60))
-#     hourHand = hourLargeDegree + hourSmallDegree
-# 
-#     print "hourHand", hourHand
-#     minuteHand = -((360/60)*minute)
-#     secondHand = -((360/60)*second)
+    App.update_idletasks()     
+#clock
+
     canvas.create_circle_arc(950, 500, 390, fill="black", outline="", start=(hourHand -5+offSet), end=(hourHand+offSet))
     canvas.create_circle_arc(950, 500, 450, fill="black", outline="", start=(minuteHand -2+offSet), end=(minuteHand+offSet))
     canvas.create_circle_arc(950, 500, 495, fill="black", outline="", start=(secondHand -1+offSet), end=(secondHand+offSet))
-    
+
+    App.update_idletasks()      
     
 #     canvas.create_circle_arc(500, 400, 100, style="arc", outline="white", width=6, start=270-25, end=270+25)
 #     canvas.create_circle(500, 400, 20, fill="#BBB", outline="")
-    localtime
-    time
+#     localtime
+#     time
 #     root.after(1000, update)
     root.wm_title("astronomical lunar mansion clock")
-    doog = (App)
-    root.after(1000, doog)
+#     doog = (App)
+        root.update_idletasks()
+    root.after(0, App)
     return
 
 
 
-def clock():
-    time = datetime.datetime.now().strftime("Time: %H:%M:%S")
-    lab.config(text=time)
-    #lab['text'] = time
-    root.after(1000, clock) # run itself again after 1000 ms
-
-# run first time
-# clock()    
 
 App() 
-root.after(1000, update)
-root.mainloop()
+root.update_idletasks()
+root.after(0, App)
+root.mainloop() 
 
 
-# 
+#  
 # def main():
 #     app = App()
 #     app.mainloop()
