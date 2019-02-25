@@ -856,6 +856,20 @@ def App():
         canvas.create_circle_arc(950, 500, 490, fill="#000000", outline="#000000", start=m-1, end=m)
 #         m=m+6
 #         print (m)
+
+#sub hour tick 
+    for m in range(0,360,15): 
+        
+        canvas.create_circle_arc(950, 500,481, fill="#000000", outline="#000000", start=m, end=m)
+#         m=m+6
+#         print (m)
+
+#sub hour tick 
+    for m in range(0,360,1): 
+        
+        canvas.create_circle_arc(950, 500,465, fill="#000000", outline="#000000", start=m, end=m)
+#         m=m+6
+#         print (m)
    
 #precessed lunar mansions
     canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=0+33+offSet, end=12+33+offSet)
@@ -1172,6 +1186,17 @@ def App():
     
 #inner circle    
     canvas.create_circle(950, 500, 270, fill="white", outline="white", width=10)
+
+#sub hour tick 
+    for m in range(0,360,15): 
+         
+        canvas.create_circle_arc(950, 500,275, fill="#000000", outline="#000000", start=m, end=m)
+#         m=m+6
+#         print (m)
+ 
+#inner circle   2 
+    canvas.create_circle(950, 500, 260, fill="white", outline="white", width=10)
+
         
 #planetary planet hands top layer
     canvas.create_circle_arc(950, 500, 420, fill="#8b0000", outline="", start=plPo-1+offSet, end=plPo+offSet)
@@ -1188,9 +1213,9 @@ def App():
       
 #clock
 
-    canvas.create_circle_arc(950, 500, 340, fill="black", outline="", start=(hourHand -5+offSet), end=(hourHand+offSet))
-    canvas.create_circle_arc(950, 500, 450, fill="black", outline="", start=(minuteHand -3+offSet), end=(minuteHand+offSet))
-    canvas.create_circle_arc(950, 500, 495, fill="black", outline="", start=(secondHand -1+offSet), end=(secondHand+offSet))
+    canvas.create_circle_arc(950, 500, 340, fill="black", outline="", start=(hourHand -6+offSet), end=(hourHand+offSet))
+    canvas.create_circle_arc(950, 500, 450, fill="black", outline="", start=(minuteHand -2+offSet), end=(minuteHand+offSet))
+    canvas.create_circle_arc(950, 500, 495, fill="black", outline="black", start=(secondHand -1+offSet), end=(secondHand+offSet))
 
     
     
