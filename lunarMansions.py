@@ -42,6 +42,8 @@ city_name = 'Spruce Creek'
 
 # print time.time()
 # print time.time()+3600
+julianC = time.localtime(time.time()-(86400*13))
+print "julianC=",julianC
 yester= time.localtime(time.time()-86400)
 # print time.localtime(time.time())
 morrow= time.localtime(time.time()+86400)
@@ -51,7 +53,7 @@ def timeUpdate():
 
 
 localtime = timeUpdate()
-print localtime
+# print localtime
 
 todayDate=datetime.date.today()
 # print todayDate
@@ -139,13 +141,14 @@ timezone = city.timezone
 # Latitude: 51.60; Longitude: 0.08
 # print "Local current time :", localtime
 now = localtime.split(" ")
-# print now
+print now
 # print now[4], "now"
-hms = now[3]
-# print hms
+hms = now[4]
+# print hms ,"hms"
 
 hour = int(hms.split(":")[0])
 # print "hour",hour
+# print (hms.split(":")[1])
 minute = int(hms.split(":")[1])
 # print "minute", minute
 second = int(hms.split(":")[2])
@@ -276,7 +279,7 @@ class Hours:
         hourTwo = hourOne + planetaryHourDayLength
         chaldean = self.hourlyPlanet(self.rulingPlanet(sunRise))
         tc = time.strftime("%j:%H:%M")
-        if tc >= hourOne.strftime("%j:%H:%M")[3] and tc <= hourTwo.strftime("%j:%H:%M"):
+        if tc >= hourOne.strftime("%j:%H:%M") and tc <= hourTwo.strftime("%j:%H:%M"):
             pHour = True
             tcc = tc
         else:
@@ -522,7 +525,7 @@ def sunDegree(sunRise, planetaryHourDayLength):
 #     print I[0],I[2].strftime("%H:%M"),I[3].strftime("%H:%M"),I[4],I[5]
     dayStart = (int(I[2].strftime("%H") )/12.0) + (int(I[2].strftime("%M"))/60.0)
 #     dayStart =  (int(I[2].strftime("%M"))/60.0)
-    print 360.0/dayStart
+#     print 360.0/dayStart
     
     return 360.0/dayStart
 
@@ -550,7 +553,7 @@ def pNightDegree(planetaryHourNightLength):
 def clockPosition(time):
 #     print time
     clockY = str(dayTime/12)
-    print clockY
+#     print clockY
     t = clockY.split(":")
 #     print t
     h = int(t[0])
@@ -561,17 +564,17 @@ def clockPosition(time):
     
 #     hDegree = (24.0/h)*3-60
     hMinute = 30*(float(m/60.0))
-    print "timey wimey"
-    print h, hDegree
-    print m, hMinute
+#     print "timey wimey"
+#     print h, hDegree
+#     print m, hMinute
     position = (hDegree - hMinute) 
-    print "position", position 
+#     print "position", position 
     return position
 
 def clockPositionNight(time):
 #     print time
     clockY = str(nightTime/12)
-    print clockY
+#     print clockY
     t = clockY.split(":")
 #     print t
     h = int(t[0])
@@ -582,11 +585,11 @@ def clockPositionNight(time):
     
 #     hDegree = (24.0/h)*3-60
     hMinute = 30*(float(m/60.0))
-    print "timey wimey"
-    print h, hDegree
-    print m, hMinute
+#     print "timey wimey"
+#     print h, hDegree
+#     print m, hMinute
     position = -(hDegree + hMinute) 
-    print "position", position 
+#     print "position", position 
     return position
 
 
@@ -685,6 +688,22 @@ def App():
     pX = h.hourTen(lastSunSet, lastPlanetaryHourNightLength, yesterDaysDay, localtime)
     pXI = h.hourEleven(lastSunSet, lastPlanetaryHourNightLength, yesterDaysDay, localtime)
     pXII = h.hourTwelve(lastSunSet, lastPlanetaryHourNightLength, yesterDaysDay, localtime)
+    
+    previouS =("lastPlanetaryHourNightLength:", lastPlanetaryHourNightLength,"\n",  
+               " ","\n", 
+               pI[1],pI[2].strftime("%H:%M"),pI[3].strftime("%H:%M"),pI[5],"\n", 
+               pII[1],pII[2].strftime("%H:%M"),pII[3].strftime("%H:%M"),pII[5],"\n", 
+               pIII[1],pIII[2].strftime("%H:%M"),pIII[3].strftime("%H:%M"),pIII[5],"\n", 
+               pIV[1],pIV[2].strftime("%H:%M"),pIV[3].strftime("%H:%M"),pIV[5],"\n", 
+               pV[1],pV[2].strftime("%H:%M"),pV[3].strftime("%H:%M"),pV[5],"\n", 
+               pVI[1],pVI[2].strftime("%H:%M"),pVI[3].strftime("%H:%M"),pVI[5],"\n", 
+               pVII[1],pVII[2].strftime("%H:%M"),pVII[3].strftime("%H:%M"),pVII[5],"\n", 
+               pVIII[1],pVIII[2].strftime("%H:%M"),pVIII[3].strftime("%H:%M"),pVIII[5],"\n", 
+               pIX[1],pIX[2].strftime("%H:%M"),pIX[3].strftime("%H:%M"),pIX[5],"\n", 
+               pX[1],pX[2].strftime("%H:%M"),pX[3].strftime("%H:%M"),pX[5],"\n", 
+               pXI[1],pXI[2].strftime("%H:%M"),pXI[3].strftime("%H:%M"),pXI[5],"\n", 
+               pXII[1],pXII[2].strftime("%H:%M"),pXII[3].strftime("%H:%M"),pXII[5],"\n", 
+               " ","\n", )
          
     dI = h.hourOne(sunRise, planetaryHourDayLength, todaysDay, localtime)
     dII = h.hourTwo(sunRise, planetaryHourDayLength, todaysDay, localtime)
@@ -698,7 +717,25 @@ def App():
     dX = h.hourTen(sunRise, planetaryHourDayLength, todaysDay, localtime)
     dXI = h.hourEleven(sunRise, planetaryHourDayLength, todaysDay, localtime)
     dXII = h.hourTwelve(sunRise, planetaryHourDayLength, todaysDay, localtime) 
-       
+
+    dayS = ("planetaryHourDayLength:", planetaryHourDayLength, "\n",
+#             "julianC=",julianC.weekday(),julianC.month(),"\n",
+            localtime,"\n",
+            " ","\n",
+            dI[0],dI[2].strftime("%H:%M"),dI[3].strftime("%H:%M"),dI[5],"\n",
+            dII[0],dII[2].strftime("%H:%M"),dII[3].strftime("%H:%M"),dII[5],"\n",
+            dIII[0],dIII[2].strftime("%H:%M"),dIII[3].strftime("%H:%M"),dIII[5],"\n",
+            dIV[0],dIV[2].strftime("%H:%M"),dIV[3].strftime("%H:%M"),dIV[5],"\n",
+            dV[0],dV[2].strftime("%H:%M"),dV[3].strftime("%H:%M"),dV[5],"\n",
+            dVI[0],dVI[2].strftime("%H:%M"),dVI[3].strftime("%H:%M"),dVI[5],"\n",
+            dVII[0],dVII[2].strftime("%H:%M"),dVII[3].strftime("%H:%M"),dVII[5],"\n",
+            dVIII[0],dVIII[2].strftime("%H:%M"),dVIII[3].strftime("%H:%M"),dVIII[5],"\n",
+            dIX[0],dIX[2].strftime("%H:%M"),dIX[3].strftime("%H:%M"),dIX[5],"\n",
+            dX[0],dX[2].strftime("%H:%M"),dX[3].strftime("%H:%M"),dX[5],"\n",
+            dXI[0],dXI[2].strftime("%H:%M"),dXI[3].strftime("%H:%M"),dXI[5],"\n",
+            dXII[0],dXII[2].strftime("%H:%M"),dXII[3].strftime("%H:%M"),dXII[5],"\n",
+    
+            " " ,"\n")      
 
     I = h.hourOne(sunSet, planetaryHourNightLength, todaysDay, localtime)
     II = h.hourTwo(sunSet, planetaryHourNightLength, todaysDay, localtime)
@@ -713,18 +750,33 @@ def App():
     XI = h.hourEleven(sunSet, planetaryHourNightLength, todaysDay, localtime)
     XII = h.hourTwelve(sunSet, planetaryHourNightLength, todaysDay, localtime)
     
-    print I[1],I[2].strftime("%H:%M"),I[3].strftime("%H:%M")
-    print II[1],II[2].strftime("%H:%M"),II[3].strftime("%H:%M"),II[4],II[5]
-    print III[1],III[2].strftime("%H:%M"),III[3].strftime("%H:%M"),III[4],III[5]
-    print IV[1],IV[2].strftime("%H:%M"),IV[3].strftime("%H:%M"),IV[4],IV[5]
-    print V[1],V[2].strftime("%H:%M"),V[3].strftime("%H:%M"),V[4],V[5]
-    print VI[1],VI[2].strftime("%H:%M"),VI[3].strftime("%H:%M"),VI[4],VI[5]
-    print VII[1],VII[2].strftime("%H:%M"),VII[3].strftime("%H:%M"),VII[4],VII[5]
-    print VIII[1],VIII[2].strftime("%H:%M"),VIII[3].strftime("%H:%M"),VIII[4],VIII[5]
-    print IX[1],IX[2].strftime("%H:%M"),IX[3].strftime("%H:%M"),IX[4],IX[5]
-    print X[1],X[2].strftime("%H:%M"),X[3].strftime("%H:%M"),X[4],X[5]
-    print XI[1],XI[2].strftime("%H:%M"),XI[3].strftime("%H:%M"),XI[4],XI[5]
-    print XII[1],XII[2].strftime("%H:%M"),XII[3].strftime("%H:%M"),XII[4],XII[5]
+#     print I[1],I[2].strftime("%H:%M"),I[3].strftime("%H:%M"),"/n",
+#     print II[1],II[2].strftime("%H:%M"),II[3].strftime("%H:%M"),II[4],II[5],"/n",
+#     print III[1],III[2].strftime("%H:%M"),III[3].strftime("%H:%M"),III[4],III[5],"/n",
+#     print IV[1],IV[2].strftime("%H:%M"),IV[3].strftime("%H:%M"),IV[4],IV[5],"/n",
+#     print V[1],V[2].strftime("%H:%M"),V[3].strftime("%H:%M"),V[4],V[5],"/n",
+#     print VI[1],VI[2].strftime("%H:%M"),VI[3].strftime("%H:%M"),VI[4],VI[5],"/n",
+#     print VII[1],VII[2].strftime("%H:%M"),VII[3].strftime("%H:%M"),VII[4],VII[5],"/n",
+#     print VIII[1],VIII[2].strftime("%H:%M"),VIII[3].strftime("%H:%M"),VIII[4],VIII[5],"/n",
+#     print IX[1],IX[2].strftime("%H:%M"),IX[3].strftime("%H:%M"),IX[4],IX[5],"/n",
+#     print X[1],X[2].strftime("%H:%M"),X[3].strftime("%H:%M"),X[4],X[5],"/n",
+#     print XI[1],XI[2].strftime("%H:%M"),XI[3].strftime("%H:%M"),XI[4],XI[5],"/n",
+#     print XII[1],XII[2].strftime("%H:%M"),XII[3].strftime("%H:%M"),XII[4],XII[5],"/n",
+    
+    nightS = ("planetaryHourNightLength:", planetaryHourNightLength,"\n",
+              localtime,"\n",
+              I[1],I[2].strftime("%H:%M"),I[3].strftime("%H:%M"),I[5],"\n",
+              II[1],II[2].strftime("%H:%M"),II[3].strftime("%H:%M"),II[5],"\n",
+              III[1],III[2].strftime("%H:%M"),III[3].strftime("%H:%M"),III[5],"\n",
+              IV[1],IV[2].strftime("%H:%M"),IV[3].strftime("%H:%M"),IV[5],"\n",
+              V[1],V[2].strftime("%H:%M"),V[3].strftime("%H:%M"),V[5],"\n",
+              VI[1],VI[2].strftime("%H:%M"),VI[3].strftime("%H:%M"),VI[5],"\n",
+              VII[1],VII[2].strftime("%H:%M"),VII[3].strftime("%H:%M"),VII[5],"\n",
+              VIII[1],VIII[2].strftime("%H:%M"),VIII[3].strftime("%H:%M"),VIII[5],"\n",
+              IX[1],IX[2].strftime("%H:%M"),IX[3].strftime("%H:%M"),IX[5],"\n",
+              X[1],X[2].strftime("%H:%M"),X[3].strftime("%H:%M"),X[5],"\n",
+              XI[1],XI[2].strftime("%H:%M"),XI[3].strftime("%H:%M"),XI[5],"\n",
+              XII[1],XII[2].strftime("%H:%M"),XII[3].strftime("%H:%M"),XII[5],"\n")
     
     print planetaryColor(I[1])
     
@@ -801,17 +853,28 @@ def App():
     plutoPosition = pyastro.rasc_to_zodiac(plurasc)
     
     
-    # print "Moon:    ",moonPosition 
-    # print "Mercury: ",mercuryPosition
-    # print "Venus:   ",venusPosition 
-    # print "Sun:     ",solPosition 
-    # print "Mars:    ",marsPosition
-    # print "Jupiter: ",jupiterPosition
-    # print "Saturn:  ",saturnPosition
-    # print "Neptune: ",neptunePosition
-    # print "Uranus:  ",uranusPosition 
-    # print "Pluto:   ",plutoPosition 
+    print "Moon:    ",moonPosition 
+    print "Mercury: ",mercuryPosition
+    print "Venus:   ",venusPosition 
+    print "Sun:     ",solPosition 
+    print "Mars:    ",marsPosition
+    print "Jupiter: ",jupiterPosition
+    print "Saturn:  ",saturnPosition
+    print "Neptune: ",neptunePosition
+    print "Uranus:  ",uranusPosition 
+    print "Pluto:   ",plutoPosition 
     
+    planetPos = ("Moon:    ",moonPosition,"\n", 
+                 "Mercury: ",mercuryPosition,"\n",
+                 "Venus:   ",venusPosition ,"\n",
+                 "Sun:     ",solPosition ,"\n",
+                 "Mars:    ",marsPosition,"\n",
+                 "Jupiter: ",jupiterPosition,"\n",
+                 "Saturn:  ",saturnPosition,"\n",
+                 "Neptune: ",neptunePosition,"\n",
+                 "Uranus:  ",uranusPosition ,"\n",
+                 "Pluto:   ",plutoPosition,"\n" )
+     
     moPo = zodiacDegree(moonPosition)
     mePo = zodiacDegree(mercuryPosition)
     vePo = zodiacDegree(venusPosition)
@@ -837,11 +900,22 @@ def App():
 #     print "hourHand", hourHand
     minuteHand = -((360/60)*minute) + (float(second/60.0)*-6.0)
     secondHand = -((360/60)*second)
+
+    jD = julianC[0],julianC[1],julianC[2],julianC[3],julianC[4],julianC[5],julianC[6],julianC[7]
     
- 
+#label info
+    canvas.delete("label1")
+    ttt = (previouS,dayS,nightS, jD)
+#     ttt = str(previouS)
+#     ttt.strip("{")
+#     ttt.strip("}")
+    canvas.create_text(250,500, tags ="label1",text=ttt)
+    
+# #planet label
+#     canvas.create_text(900,200, text = (planetPos))
 
 #outer clock rim
-    canvas.create_circle(950, 500, 495, fill="white", outline="#000000", width=5)
+    canvas.create_circle(950, 500, 495, fill="white", outline="#000000", width=10)
     
 #  minute tick  
     for m in range(0,360,6): 
@@ -860,7 +934,7 @@ def App():
 #sub hour tick 
     for m in range(0,360,15): 
         
-        canvas.create_circle_arc(950, 500,481, fill="#000000", outline="#000000", start=m, end=m)
+        canvas.create_circle_arc(950, 500,485, fill="#000000", outline="#000000", start=m, end=m)
 #         m=m+6
 #         print (m)
 
@@ -870,9 +944,49 @@ def App():
         canvas.create_circle_arc(950, 500,465, fill="#000000", outline="#000000", start=m, end=m)
 #         m=m+6
 #         print (m)
+#sub hour tick 
+
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5, end=7.5)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+15, end=7.5+15)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+30, end=7.5+30)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+45, end=7.5+45)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+60, end=7.5+60)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+75, end=7.5+75)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+90, end=7.5+90)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+15+90, end=7.5+15+90)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+30+90, end=7.5+30+90)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+45+90, end=7.5+45+90)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+60+90, end=7.5+60+90)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+75+90, end=7.5+75+90)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+180, end=7.5+180)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+15+180, end=7.5+15+180)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+30+180, end=7.5+30+180)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+45+180, end=7.5+45+180)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+60+180, end=7.5+60+180)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+75+180, end=7.5+75+180)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+270, end=7.5+270)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+15+270, end=7.5+15+9270)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+30+270, end=7.5+30+270)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+45+270, end=7.5+45+270)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+60+270, end=7.5+60+270)
+    canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5+75+270, end=7.5+75+270)
+
+# #planetary clock hands bottom layer 
+ 
+    canvas.create_circle_arc(950, 500, 495, fill="#8b0000", outline="black", start=plPo-2+offSet, end=plPo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#006400", outline="black", start=urPo-2+offSet, end=urPo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="blue", outline="black", start=nePo-2+offSet, end=nePo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#8A2BE2", outline="black", start=saPo-2+offSet, end=saPo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#EE82EE", outline="black", start=juPo-2+offSet, end=juPo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#FF0000", outline="black", start=maPo-2+offSet, end=maPo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#FFA500", outline="black", start=soPo-2+offSet, end=soPo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#008000", outline="black", start=vePo-2+offSet, end=vePo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#FFFF00", outline="black", start=mePo-2+offSet, end=mePo+1+offSet)     
+    canvas.create_circle_arc(950, 500, 495, fill="#c0c0c0", outline="black", start=moPo-2+offSet, end=moPo+1+offSet)
+
    
 #processed lunar mansions ~CE2000
-    canvas.create_circle_arc(950, 500, 460, fill="#696969", outline="#000000", start=0+33+offSet, end=12+33+offSet)
+    canvas.create_circle_arc(950, 500, 460, fill="#696969", outline="#000000",width=5, start=0+33+offSet, end=12+33+offSet)
     canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=12+33+offSet, end=25+33+offSet)
     canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=25+33+offSet, end=38.5+33+offSet)
     canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=38.5+33+offSet, end=52+33+offSet)
@@ -885,8 +999,8 @@ def App():
     canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=128.5+33+offSet, end=142+33+offSet)
     canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=142+33+offSet, end=154+33+offSet)
     canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=154+33+offSet, end=167.5+33+offSet)
-    canvas.create_circle_arc(950, 500, 400, fill="white", outline="#dcdcdc", start=167.5+33+offSet, end=180+33+offSet)
-    canvas.create_circle_arc(950, 500, 460, fill="#696969", outline="#000000", start=180+33+offSet, end=192+33+offSet)
+    canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=167.5+33+offSet, end=180+33+offSet)
+    canvas.create_circle_arc(950, 500, 460, fill="#696969", outline="#000000",width=5, start=180+33+offSet, end=192+33+offSet)
     canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=192+33+offSet, end=205+33+offSet)
     canvas.create_circle_arc(950, 500, 450, fill="#696969", outline="#dcdcdc", start=205+33+offSet, end=218.5+33+offSet)
     canvas.create_circle_arc(950, 500, 450, fill="white", outline="#dcdcdc", start=218.5+33+offSet, end=232+33+offSet)
@@ -903,7 +1017,7 @@ def App():
      
 #     
 # #traditional lunar mansions
-    canvas.create_circle_arc(950, 500, 430, fill="#696969", outline="#000000", start=0+offSet, end=12+offSet)
+    canvas.create_circle_arc(950, 500, 430, fill="#696969", outline="#000000",width=5, start=0+offSet, end=12+offSet)
     canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=12+offSet, end=25+offSet)
     canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=25+offSet, end=38.5+offSet)
     canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=38.5+offSet, end=52+offSet)
@@ -917,7 +1031,7 @@ def App():
     canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=142+offSet, end=154+offSet)
     canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=154+offSet, end=167.5+offSet)
     canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=167.5+offSet, end=180+offSet)
-    canvas.create_circle_arc(950, 500, 430, fill="#696969", outline="#000000", start=180+offSet, end=192+offSet)
+    canvas.create_circle_arc(950, 500, 430, fill="#696969", outline="#000000",width=5, start=180+offSet, end=192+offSet)
     canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=192+offSet, end=205+offSet)
     canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=205+offSet, end=218.5+offSet)
     canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=218.5+offSet, end=232+offSet)
@@ -932,20 +1046,20 @@ def App():
     canvas.create_circle_arc(950, 500, 420, fill="#696969", outline="#dcdcdc", start=334+offSet, end=347.5+offSet)
     canvas.create_circle_arc(950, 500, 420, fill="white", outline="#dcdcdc", start=347.5+offSet, end=360+offSet)
    
-#planetary clock hands bottom layer 
-
-    canvas.create_circle_arc(950, 500, 475, fill="#8b0000", outline="", start=plPo-1+offSet, end=plPo+offSet)
-    canvas.create_circle_arc(950, 500, 475, fill="#006400", outline="", start=urPo-1+offSet, end=urPo+offSet)
-    canvas.create_circle_arc(950, 500, 475, fill="blue", outline="", start=nePo-1+offSet, end=nePo+offSet)
-    canvas.create_circle_arc(950, 500, 475, fill="#8A2BE2", outline="", start=saPo-1+offSet, end=saPo+offSet)
-    canvas.create_circle_arc(950, 500, 475, fill="#EE82EE", outline="", start=juPo-1+offSet, end=juPo+offSet)
-    canvas.create_circle_arc(950, 500, 475, fill="#FF0000", outline="", start=maPo-1+offSet, end=maPo+offSet)
-    canvas.create_circle_arc(950, 500, 475, fill="#FFA500", outline="", start=soPo-1+offSet, end=soPo+offSet)
-    canvas.create_circle_arc(950, 500, 475, fill="#008000", outline="", start=vePo-1+offSet, end=vePo+offSet)
-    canvas.create_circle_arc(950, 500, 475, fill="#FFFF00", outline="", start=mePo-1+offSet, end=mePo+offSet)     
-    canvas.create_circle_arc(950, 500, 475, fill="#c0c0c0", outline="", start=moPo-1+offSet, end=moPo+offSet)
-
-    
+# #planetary clock hands bottom layer 
+  
+    canvas.create_circle_arc(950, 500, 495, fill="#8b0000", outline="black", start=plPo-2+offSet, end=plPo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#006400", outline="black", start=urPo-2+offSet, end=urPo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="blue", outline="black", start=nePo-2+offSet, end=nePo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#8A2BE2", outline="black", start=saPo-2+offSet, end=saPo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#EE82EE", outline="black", start=juPo-2+offSet, end=juPo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#FF0000", outline="black", start=maPo-2+offSet, end=maPo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#FFA500", outline="black", start=soPo-2+offSet, end=soPo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#008000", outline="black", start=vePo-2+offSet, end=vePo+1+offSet)
+    canvas.create_circle_arc(950, 500, 495, fill="#FFFF00", outline="black", start=mePo-2+offSet, end=mePo+1+offSet)     
+    canvas.create_circle_arc(950, 500, 495, fill="#c0c0c0", outline="black", start=moPo-2+offSet, end=moPo+1+offSet)
+ 
+     
     
     
     #backround cover
@@ -962,221 +1076,237 @@ def App():
     canvas.create_circle_arc(950, 500, 380, fill="white", outline="white", start=plPo-5+offSet, end=plPo+offSet)
 
     #seasonzodiac boundaries
-     
-    canvas.create_circle_arc(950, 500, 390, fill="#191970", outline="#000000", start=0+offSet, end=90+offSet)
-    canvas.create_circle_arc(950, 500, 390, fill="#FF0000", outline="#000000", start=90+offSet, end=1800+offSet)
-    canvas.create_circle_arc(950, 500, 390, fill="#808000", outline="#000000", start=180+offSet, end=270+offSet)
-    canvas.create_circle_arc(950, 500, 390, fill="#FFFF00", outline="#000000", start=270+offSet, end=360+offSet)
+#     water blue, #191970
+#     fire red , #FF0000
+#     green earth, #808000
+#     yellow air, #FFFF00
+#      spring
+    canvas.create_circle_arc(950, 500, 390, fill="#FFFF00", outline="#000000", start=0+offSet, end=90+offSet)
+#     summer
+    canvas.create_circle_arc(950, 500, 390, fill="#FF0000", outline="#000000", start=90+offSet, end=180+offSet)
+#     autumn
+    canvas.create_circle_arc(950, 500, 390, fill="#191970", outline="#000000", start=180+offSet, end=270+offSet)
+#     winter
+    canvas.create_circle_arc(950, 500, 390, fill="#808000", outline="#000000", start=270+offSet, end=360+offSet)
      
     #zodiac boundaries
      
-    canvas.create_circle_arc(950, 500, 370, fill="#FF0000", outline="#000000", start=0+offSet, end=30+offSet)
-    canvas.create_circle_arc(950, 500, 370, fill="#808000", outline="#000000", start=30+offSet, end=60+offSet)
-    canvas.create_circle_arc(950, 500, 370, fill="#FFFF00", outline="#000000", start=60+offSet, end=90+offSet)
-    canvas.create_circle_arc(950, 500, 370, fill="#191970", outline="#000000", start=90+offSet, end=120+offSet)
-    canvas.create_circle_arc(950, 500, 370, fill="#FF0000", outline="#000000", start=120+offSet, end=150+offSet)
-    canvas.create_circle_arc(950, 500, 370, fill="#808000", outline="#000000", start=150+offSet, end=180+offSet)
-    canvas.create_circle_arc(950, 500, 370, fill="#FFFF00", outline="#000000", start=180+offSet, end=210+offSet)
-    canvas.create_circle_arc(950, 500, 370, fill="#191970", outline="#000000", start=210+offSet, end=240+offSet)
-    canvas.create_circle_arc(950, 500, 370, fill="#FF0000", outline="#000000", start=240+offSet, end=270+offSet)
-    canvas.create_circle_arc(950, 500, 370, fill="#808000", outline="#000000", start=270+offSet, end=300+offSet)
-    canvas.create_circle_arc(950, 500, 370, fill="#FFFF00", outline="#000000", start=300+offSet, end=330+offSet)
-    canvas.create_circle_arc(950, 500, 370, fill="#191970", outline="#000000", start=330+offSet, end=360+offSet)
+    canvas.create_circle_arc(950, 500, 385, fill="#FF0000", outline="#000000", start=0+offSet, end=30+offSet)
+    canvas.create_circle_arc(950, 500, 385, fill="#808000", outline="#000000", start=30+offSet, end=60+offSet)
+    canvas.create_circle_arc(950, 500, 385, fill="#FFFF00", outline="#000000", start=60+offSet, end=90+offSet)
+    canvas.create_circle_arc(950, 500, 385, fill="#191970", outline="#000000", start=90+offSet, end=120+offSet)
+    canvas.create_circle_arc(950, 500, 385, fill="#FF0000", outline="#000000", start=120+offSet, end=150+offSet)
+    canvas.create_circle_arc(950, 500, 385, fill="#808000", outline="#000000", start=150+offSet, end=180+offSet)
+    canvas.create_circle_arc(950, 500, 385, fill="#FFFF00", outline="#000000", start=180+offSet, end=210+offSet)
+    canvas.create_circle_arc(950, 500, 385, fill="#191970", outline="#000000", start=210+offSet, end=240+offSet)
+    canvas.create_circle_arc(950, 500, 385, fill="#FF0000", outline="#000000", start=240+offSet, end=270+offSet)
+    canvas.create_circle_arc(950, 500, 385, fill="#808000", outline="#000000", start=270+offSet, end=300+offSet)
+    canvas.create_circle_arc(950, 500, 385, fill="#FFFF00", outline="#000000", start=300+offSet, end=330+offSet)
+    canvas.create_circle_arc(950, 500, 385, fill="#191970", outline="#000000", start=330+offSet, end=360+offSet)
 
 #  decan tick  
     for m in range(0,360,10): 
         
-        canvas.create_circle_arc(950, 500, 380, fill="#000000", outline="#000000", start=m, end=m)
+        canvas.create_circle_arc(950, 500, 380, fill="#000000", outline="darkgray", start=m, end=m)
 #         m=m+6
 #        print (m)
 
-    offsetB = 90
+
+#offsets
+
+    offsetB = 86
+    offsetC = 93
+
+#refresh hours if needed  
+    canvas.delete("hours") 
 #previous night hours
 # 
+    
     canvas.create_circle_arc(950, 500, 340, fill=planetaryColor(pI[1]), 
-                             outline="#000000", 
-                             end =-(offsetB -clockPositionNight(lastSunSet)),
-                            start=-(offsetB -clockPositionNight(lastSunSet)+ (1*clockPositionNight(lastPlanetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                             end =-(offsetC -clockPositionNight(lastSunSet)),
+                            start=-(offsetC -clockPositionNight(lastSunSet)+ (1*clockPositionNight(lastPlanetaryHourNightLength))))
     canvas.create_circle_arc(950, 500, 340, fill=planetaryColor(pII[1]), 
-                             outline="#000000", 
-                             start =-(offsetB -clockPositionNight(lastSunSet)), 
-                             end =-(offsetB -clockPositionNight(lastSunSet)- (1*clockPositionNight(lastPlanetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                             start =-(offsetC -clockPositionNight(lastSunSet)), 
+                             end =-(offsetC -clockPositionNight(lastSunSet)- (1*clockPositionNight(lastPlanetaryHourNightLength))))
     canvas.create_circle_arc(950, 500, 340, fill=planetaryColor(pIII[1]), 
-                             outline="#000000", 
-                              start= -(offsetB -clockPositionNight(lastSunSet)- (1*clockPositionNight(lastPlanetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(lastSunSet)- (2*clockPositionNight(lastPlanetaryHourNightLength))))
-
+                             outline="#000000", tags="hours",
+                              start= -(offsetC -clockPositionNight(lastSunSet)- (1*clockPositionNight(lastPlanetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(lastSunSet)- (2*clockPositionNight(lastPlanetaryHourNightLength))))
+ 
     canvas.create_circle_arc(950, 500, 340, fill=planetaryColor(pIV[1]), 
-                             outline="#000000", 
-                              start= -(offsetB -clockPositionNight(lastSunSet)- (2*clockPositionNight(lastPlanetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(lastSunSet)- (3*clockPositionNight(lastPlanetaryHourNightLength))))
-   
+                             outline="#000000", tags="hours",
+                              start= -(offsetC -clockPositionNight(lastSunSet)- (2*clockPositionNight(lastPlanetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(lastSunSet)- (3*clockPositionNight(lastPlanetaryHourNightLength))))
+    
     canvas.create_circle_arc(950, 500, 340, fill=planetaryColor(pV[1]), 
-                             outline="#000000", 
-                              start= -(offsetB -clockPositionNight(lastSunSet)- (3*clockPositionNight(lastPlanetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(lastSunSet)- (4*clockPositionNight(lastPlanetaryHourNightLength))))
-
+                             outline="#000000", tags="hours",
+                              start= -(offsetC -clockPositionNight(lastSunSet)- (3*clockPositionNight(lastPlanetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(lastSunSet)- (4*clockPositionNight(lastPlanetaryHourNightLength))))
+ 
     canvas.create_circle_arc(950, 500, 340, fill=planetaryColor(pVI[1]), 
-                             outline="#000000", 
-                              start= -(offsetB -clockPositionNight(lastSunSet)- (4*clockPositionNight(lastPlanetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(lastSunSet)- (5*clockPositionNight(lastPlanetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                              start= -(offsetC -clockPositionNight(lastSunSet)- (4*clockPositionNight(lastPlanetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(lastSunSet)- (5*clockPositionNight(lastPlanetaryHourNightLength))))
 
     canvas.create_circle_arc(950, 500, 345, fill=planetaryColor(pVII[1]), 
-                             outline="#000000", 
-                              start= -(offsetB -clockPositionNight(lastSunSet)- (5*clockPositionNight(lastPlanetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(lastSunSet)- (6*clockPositionNight(lastPlanetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                              start= -(offsetC -clockPositionNight(lastSunSet)- (5*clockPositionNight(lastPlanetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(lastSunSet)- (6*clockPositionNight(lastPlanetaryHourNightLength))))
 
     canvas.create_circle_arc(950, 500, 345, fill=planetaryColor(pVIII[1]), 
-                             outline="#000000", 
-                              start= -(offsetB -clockPositionNight(lastSunSet)- (6*clockPositionNight(lastPlanetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(lastSunSet)- (7*clockPositionNight(lastPlanetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                              start= -(offsetC -clockPositionNight(lastSunSet)- (6*clockPositionNight(lastPlanetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(lastSunSet)- (7*clockPositionNight(lastPlanetaryHourNightLength))))
 
     canvas.create_circle_arc(950, 500, 345, fill=planetaryColor(pIX[1]), 
-                             outline="#000000", 
-                              start= -(offsetB -clockPositionNight(lastSunSet)- (7*clockPositionNight(lastPlanetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(lastSunSet)- (8*clockPositionNight(lastPlanetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                              start= -(offsetC -clockPositionNight(lastSunSet)- (7*clockPositionNight(lastPlanetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(lastSunSet)- (8*clockPositionNight(lastPlanetaryHourNightLength))))
 
     canvas.create_circle_arc(950, 500, 345, fill=planetaryColor(pX[1]), 
-                             outline="#000000", 
-                              start= -(offsetB -clockPositionNight(lastSunSet)- (8*clockPositionNight(lastPlanetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(lastSunSet)- (9*clockPositionNight(lastPlanetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                              start= -(offsetC -clockPositionNight(lastSunSet)- (8*clockPositionNight(lastPlanetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(lastSunSet)- (9*clockPositionNight(lastPlanetaryHourNightLength))))
 
     canvas.create_circle_arc(950, 500, 345, fill=planetaryColor(pXI[1]), 
-                             outline="#000000", 
-                              start= -(offsetB -clockPositionNight(lastSunSet)- (9*clockPositionNight(lastPlanetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(lastSunSet)- (10*clockPositionNight(lastPlanetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                              start= -(offsetC -clockPositionNight(lastSunSet)- (9*clockPositionNight(lastPlanetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(lastSunSet)- (10*clockPositionNight(lastPlanetaryHourNightLength))))
 
     canvas.create_circle_arc(950, 500, 335, fill=planetaryColor(pXII[1]), 
-                             outline="#000000", 
-                             start= -(offsetB -clockPositionNight(lastSunSet)- (10*clockPositionNight(lastPlanetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(lastSunSet)- (11*clockPositionNight(lastPlanetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                             start= -(offsetC -clockPositionNight(lastSunSet)- (10*clockPositionNight(lastPlanetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(lastSunSet)- (11*clockPositionNight(lastPlanetaryHourNightLength))))
 
 
 
 
 #day hours
 
-    canvas.create_circle_arc(950, 500, 325, 
+    canvas.create_circle_arc(950, 500, 335, 
                              fill=planetaryColor(dI[0]), 
-                             outline="#000000", 
+                             outline="#000000", tags="hours",
                              end= -(offsetB - clockPosition(sunRise)), 
                              start=-(offsetB -clockPosition(sunRise)- clockPosition(planetaryHourDayLength)))
-    canvas.create_circle_arc(950, 500, 320, 
+    canvas.create_circle_arc(950, 500, 335, 
                              fill=planetaryColor(dII[0]), 
-                             outline="#000000", 
+                             outline="#000000", tags="hours",
                              start=-(offsetB -clockPosition(sunRise)-clockPosition(planetaryHourDayLength)),
                              end=-(offsetB -clockPosition(sunRise)- (2*clockPosition(planetaryHourDayLength))))
-    canvas.create_circle_arc(950, 500, 320, 
+    canvas.create_circle_arc(950, 500, 335, 
                             fill=planetaryColor(dIII[0]), 
-                            outline="#000000", 
+                            outline="#000000", tags="hours",
                             start=-(offsetB -clockPosition(sunRise)- (2*clockPosition(planetaryHourDayLength))),
                             end=-(offsetB -clockPosition(sunRise)- (3*clockPosition(planetaryHourDayLength))))
-    canvas.create_circle_arc(950, 500, 320, 
+    canvas.create_circle_arc(950, 500, 335, 
                             fill=planetaryColor(dIV[0]), 
-                            outline="#000000", 
+                            outline="#000000", tags="hours",
                             start=-(offsetB -clockPosition(sunRise)- (3*clockPosition(planetaryHourDayLength))),
                             end=-(offsetB -clockPosition(sunRise)- (4*clockPosition(planetaryHourDayLength))))
-    canvas.create_circle_arc(950, 500, 320, 
+    canvas.create_circle_arc(950, 500, 335, 
                             fill=planetaryColor(dV[0]), 
-                            outline="#000000", 
+                            outline="#000000", tags="hours",
                             start=-(offsetB -clockPosition(sunRise)- (4*clockPosition(planetaryHourDayLength))),
                             end=-(offsetB -clockPosition(sunRise)- (5*clockPosition(planetaryHourDayLength))))
-    canvas.create_circle_arc(950, 500, 320, 
+    canvas.create_circle_arc(950, 500, 335, 
                              fill=planetaryColor(dVI[0]), 
-                             outline="#000000", 
+                             outline="#000000", tags="hours",
                             start=-(offsetB -clockPosition(sunRise)- (5*clockPosition(planetaryHourDayLength))),
                             end=-(offsetB -clockPosition(sunRise)- (6*clockPosition(planetaryHourDayLength))))
     canvas.create_circle_arc(950, 500, 320, 
                              fill=planetaryColor(dVII[0]), 
-                             outline="#000000", 
+                             outline="#000000", tags="hours",
                              start=-(offsetB -clockPosition(sunRise)- (6*clockPosition(planetaryHourDayLength))),
                             end=-(offsetB -clockPosition(sunRise)- (7*clockPosition(planetaryHourDayLength))))
     canvas.create_circle_arc(950, 500, 320, 
                              fill=planetaryColor(dVIII[0]), 
-                             outline="#000000", 
+                             outline="#000000", tags="hours",
                              start=-(offsetB -clockPosition(sunRise)- (7*clockPosition(planetaryHourDayLength))),
                             end=-(offsetB -clockPosition(sunRise)- (8*clockPosition(planetaryHourDayLength))))
     canvas.create_circle_arc(950, 500, 320, 
                              fill=planetaryColor(dIX[0]), 
-                             outline="#000000", 
+                             outline="#000000", tags="hours",
                              start=-(offsetB -clockPosition(sunRise)- (8*clockPosition(planetaryHourDayLength))),
                             end=-(offsetB -clockPosition(sunRise)- (9*clockPosition(planetaryHourDayLength))))
     canvas.create_circle_arc(950, 500, 320, fill=planetaryColor(dX[0]), 
-                             outline="#000000", 
+                             outline="#000000", tags="hours",
                              start=-(offsetB -clockPosition(sunRise)- (9*clockPosition(planetaryHourDayLength))),
                             end=-(offsetB -clockPosition(sunRise)- (10*clockPosition(planetaryHourDayLength))))
     canvas.create_circle_arc(950, 500, 320, fill=planetaryColor(dXI[0]), 
-                             outline="#000000", 
+                             outline="#000000", tags="hours",
                              start=-(offsetB -clockPosition(sunRise)- (10*clockPosition(planetaryHourDayLength))),
                             end=-(offsetB -clockPosition(sunRise)- (11*clockPosition(planetaryHourDayLength))))
     canvas.create_circle_arc(950, 500, 315, fill=planetaryColor(dXII[0]), 
-                             outline="#000000", 
+                             outline="#000000", tags="hours",
                              start=-(offsetB -clockPosition(sunRise)- (11*clockPosition(planetaryHourDayLength))),
                             end=-(offsetB -clockPosition(sunRise)- (12*clockPosition(planetaryHourDayLength))))
 # #     print "sunset", ((sunUp)-(12 * sunUpPlus))
     
 #night hours
 # 
+    
     canvas.create_circle_arc(950, 500, 310, 
                              fill=planetaryColor(I[1]), 
-                             outline="#000000", 
-                             end =-(offsetB -clockPositionNight(sunSet)),
-                            start=-(offsetB -clockPositionNight(sunSet)+ (1*clockPositionNight(planetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                             end =-(offsetC -clockPositionNight(sunSet)),
+                            start=-(offsetC -clockPositionNight(sunSet)+ (1*clockPositionNight(planetaryHourNightLength))))
     canvas.create_circle_arc(950, 500, 300, 
                              fill=planetaryColor(II[1]), 
-                             outline="#000000", 
-                             start =-(offsetB -clockPositionNight(sunSet)), 
-                             end =-(offsetB -clockPositionNight(sunSet)- (1*clockPositionNight(planetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                             start =-(offsetC -clockPositionNight(sunSet)), 
+                             end =-(offsetC -clockPositionNight(sunSet)- (1*clockPositionNight(planetaryHourNightLength))))
     canvas.create_circle_arc(950, 500, 300, 
                             fill=planetaryColor(III[1]), 
-                            outline="#000000", 
-                            start= -(offsetB -clockPositionNight(sunSet)- (1*clockPositionNight(planetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(sunSet)- (2*clockPositionNight(planetaryHourNightLength))))
+                            outline="#000000", tags="hours",
+                            start= -(offsetC -clockPositionNight(sunSet)- (1*clockPositionNight(planetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(sunSet)- (2*clockPositionNight(planetaryHourNightLength))))
     canvas.create_circle_arc(950, 500, 300, 
                             fill=planetaryColor(IV[1]), 
-                            outline="#000000", 
-                            start= -(offsetB -clockPositionNight(sunSet)- (2*clockPositionNight(planetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(sunSet)- (3*clockPositionNight(planetaryHourNightLength))))
+                            outline="#000000", tags="hours",
+                            start= -(offsetC -clockPositionNight(sunSet)- (2*clockPositionNight(planetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(sunSet)- (3*clockPositionNight(planetaryHourNightLength))))
     canvas.create_circle_arc(950, 500, 300, 
                              fill=planetaryColor(V[1]), 
-                             outline="#000000", 
-                             start= -(offsetB -clockPositionNight(sunSet)- (3*clockPositionNight(planetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(sunSet)- (4*clockPositionNight(planetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                             start= -(offsetC -clockPositionNight(sunSet)- (3*clockPositionNight(planetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(sunSet)- (4*clockPositionNight(planetaryHourNightLength))))
     canvas.create_circle_arc(950, 500, 300, 
                              fill=planetaryColor(VI[1]), 
-                             outline="#000000", 
-                             start= -(offsetB -clockPositionNight(sunSet)- (4*clockPositionNight(planetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(sunSet)- (5*clockPositionNight(planetaryHourNightLength))))
-    canvas.create_circle_arc(950, 500, 300, 
+                             outline="#000000", tags="hours",
+                             start= -(offsetC -clockPositionNight(sunSet)- (4*clockPositionNight(planetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(sunSet)- (5*clockPositionNight(planetaryHourNightLength))))
+    canvas.create_circle_arc(950, 500, 295, 
                              fill=planetaryColor(VII[1]), 
-                             outline="#000000", 
-                             start= -(offsetB -clockPositionNight(sunSet)- (5*clockPositionNight(planetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(sunSet)- (6*clockPositionNight(planetaryHourNightLength))))
-    canvas.create_circle_arc(950, 500, 300, 
+                             outline="#000000", tags="hours",
+                             start= -(offsetC -clockPositionNight(sunSet)- (5*clockPositionNight(planetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(sunSet)- (6*clockPositionNight(planetaryHourNightLength))))
+    canvas.create_circle_arc(950, 500, 295, 
                              fill=planetaryColor(VIII[1]), 
-                             outline="#000000", 
-                             start= -(offsetB -clockPositionNight(sunSet)- (6*clockPositionNight(planetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(sunSet)- (7*clockPositionNight(planetaryHourNightLength))))
-    canvas.create_circle_arc(950, 500, 300, 
+                             outline="#000000", tags="hours",
+                             start= -(offsetC -clockPositionNight(sunSet)- (6*clockPositionNight(planetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(sunSet)- (7*clockPositionNight(planetaryHourNightLength))))
+    canvas.create_circle_arc(950, 500, 295, 
                              fill=planetaryColor(IX[1]), 
-                             outline="#000000", 
-                             start= -(offsetB -clockPositionNight(sunSet)- (7*clockPositionNight(planetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(sunSet)- (8*clockPositionNight(planetaryHourNightLength))))
-    canvas.create_circle_arc(950, 500, 300, 
+                             outline="#000000", tags="hours",
+                             start= -(offsetC -clockPositionNight(sunSet)- (7*clockPositionNight(planetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(sunSet)- (8*clockPositionNight(planetaryHourNightLength))))
+    canvas.create_circle_arc(950, 500, 295, 
                              fill=planetaryColor(X[1]), 
-                             outline="#000000", 
-                             start= -(offsetB -clockPositionNight(sunSet)- (8*clockPositionNight(planetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(sunSet)- (9*clockPositionNight(planetaryHourNightLength))))
-    canvas.create_circle_arc(950, 500, 300, 
+                             outline="#000000", tags="hours",
+                             start= -(offsetC -clockPositionNight(sunSet)- (8*clockPositionNight(planetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(sunSet)- (9*clockPositionNight(planetaryHourNightLength))))
+    canvas.create_circle_arc(950, 500, 295, 
                              fill=planetaryColor(XI[1]), 
-                             outline="#000000", 
-                             start= -(offsetB -clockPositionNight(sunSet)- (9*clockPositionNight(planetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(sunSet)- (10*clockPositionNight(planetaryHourNightLength))))
-    canvas.create_circle_arc(950, 500, 300, 
+                             outline="#000000", tags="hours",
+                             start= -(offsetC -clockPositionNight(sunSet)- (9*clockPositionNight(planetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(sunSet)- (10*clockPositionNight(planetaryHourNightLength))))
+    canvas.create_circle_arc(950, 500, 295, 
                              fill=planetaryColor(XII[1]), 
-                             outline="#000000", 
-                             start= -(offsetB -clockPositionNight(sunSet)- (10*clockPositionNight(planetaryHourNightLength))), 
-                             end=-(offsetB -clockPositionNight(sunSet)- (11*clockPositionNight(planetaryHourNightLength))))
+                             outline="#000000", tags="hours",
+                             start= -(offsetC -clockPositionNight(sunSet)- (10*clockPositionNight(planetaryHourNightLength))), 
+                             end=-(offsetC -clockPositionNight(sunSet)- (11*clockPositionNight(planetaryHourNightLength))))
 
 
 
@@ -1194,32 +1324,64 @@ def App():
 #         m=m+6
 #         print (m)
  
+#sub hour tick 
+#     for m in range(0,360,15): 
+         
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5, end=7.5)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+15, end=7.5+15)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+30, end=7.5+30)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+45, end=7.5+45)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+60, end=7.5+60)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+75, end=7.5+75)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+90, end=7.5+90)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+15+90, end=7.5+15+90)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+30+90, end=7.5+30+90)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+45+90, end=7.5+45+90)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+60+90, end=7.5+60+90)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+75+90, end=7.5+75+90)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+180, end=7.5+180)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+15+180, end=7.5+15+180)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+30+180, end=7.5+30+180)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+45+180, end=7.5+45+180)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+60+180, end=7.5+60+180)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+75+180, end=7.5+75+180)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+270, end=7.5+270)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+15+270, end=7.5+15+9270)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+30+270, end=7.5+30+270)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+45+270, end=7.5+45+270)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+60+270, end=7.5+60+270)
+    canvas.create_circle_arc(950, 500,270, fill="#000000", outline="#000000", start=7.5+75+270, end=7.5+75+270) 
+ 
 #inner circle   2 
-    canvas.create_circle(950, 500, 260, fill="white", outline="white", width=10)
+    canvas.create_circle(950, 500, 260, fill="black", outline="#000000", width=5)
 
         
 #planetary planet hands top layer
-    canvas.create_circle_arc(950, 500, 420, fill="#8b0000", outline="", start=plPo-1+offSet, end=plPo+offSet)
-    canvas.create_circle_arc(950, 500, 420, fill="#006400", outline="", start=urPo-1+offSet, end=urPo+offSet)
-    canvas.create_circle_arc(950, 500, 420, fill="blue", outline="", start=nePo-1+offSet, end=nePo+offSet)
-    canvas.create_circle_arc(950, 500, 420, fill="#8A2BE2", outline="", start=saPo-1+offSet, end=saPo+offSet)
-    canvas.create_circle_arc(950, 500, 420, fill="#EE82EE", outline="", start=juPo-1+offSet, end=juPo+offSet)
-    canvas.create_circle_arc(950, 500, 420, fill="#FF0000", outline="", start=maPo-1+offSet, end=maPo+offSet)
-    canvas.create_circle_arc(950, 500, 420, fill="#FFA500", outline="", start=soPo-1+offSet, end=soPo+offSet)
-    canvas.create_circle_arc(950, 500, 420, fill="#008000", outline="", start=vePo-1+offSet, end=vePo+offSet)
-    canvas.create_circle_arc(950, 500, 420, fill="#FFFF00", outline="", start=mePo-1+offSet, end=mePo+offSet)    
-    canvas.create_circle_arc(950, 500, 420, fill="#c0c0c0", outline="", start=moPo-1+offSet, end=moPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#8b0000", outline="black", start=plPo-1+offSet, end=plPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#006400", outline="black", start=urPo-1+offSet, end=urPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="blue", outline="black", start=nePo-1+offSet, end=nePo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#8A2BE2", outline="black", start=saPo-1+offSet, end=saPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#EE82EE", outline="black", start=juPo-1+offSet, end=juPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#FF0000", outline="black", start=maPo-1+offSet, end=maPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#FFA500", outline="black", start=soPo-1+offSet, end=soPo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#008000", outline="black", start=vePo-1+offSet, end=vePo+offSet)
+    canvas.create_circle_arc(950, 500, 420, fill="#FFFF00", outline="black", start=mePo-1+offSet, end=mePo+offSet)    
+    canvas.create_circle_arc(950, 500, 420, fill="#c0c0c0", outline="black", start=moPo-1+offSet, end=moPo+offSet)
 
       
 #clock
-
-    canvas.create_circle_arc(950, 500, 340, fill="black", outline="", start=(hourHand -6+offSet), end=(hourHand+offSet))
-    canvas.create_circle_arc(950, 500, 450, fill="black", outline="", start=(minuteHand -2+offSet), end=(minuteHand+offSet))
-    canvas.create_circle_arc(950, 500, 495, fill="black", outline="black", start=(secondHand -1+offSet), end=(secondHand+offSet))
+#     canvas.delete("clock1") 
+    canvas.create_circle_arc(950, 500, 360, fill="black", outline="white", tags="clock",start=(hourHand -3+offSet), end=(hourHand+offSet))
+    canvas.create_circle_arc(950, 500, 476, fill="black", outline="white", tags="clock",start=(minuteHand -2+offSet), end=(minuteHand+offSet))
+    canvas.create_circle_arc(950, 500, 495, fill="black", outline="white", tags="clock1",start=(secondHand -1+offSet), end=(secondHand+offSet))
 
     
     
-
+#planet label
+    canvas.delete("label2") 
+    canvas.create_text(1500,200, tags = "label2",text = (planetPos))
+    
+    
     root.wm_title("astronomical lunar mansion clock")
     root.update_idletasks()
     root.after(1000, App)
@@ -1228,7 +1390,8 @@ def App():
 
 
 
-App()  
+App() 
+
 root.update_idletasks()
 root.after(1000, App)
 root.mainloop() 
