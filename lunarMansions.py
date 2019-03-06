@@ -9,6 +9,12 @@ Created on Nov 22, 2018
 
 @author: catawbafellini
 '''
+
+'''
+Created on March 6, 2018 
+
+@author: catawbafellini
+'''
 # import datetime
 import pyastro
 #02/22/2019 modified with updated JPL keplerian elements from https://ssd.jpl.nasa.gov/txt/p_elem_t2.txt
@@ -115,7 +121,7 @@ day = int(dateSplit[2])
 # print(datetime.date.today())
 # print(time.time()) 
 
-sunTime =(year, month, day+29.53059)
+sunTime =(year, month, day+30.53059)
 
 m = ephem.Sun(sunTime)
 # print m
@@ -208,7 +214,7 @@ def moonCheck(a, year, month, day):
     moonPercent = moon_phase/29.53059
 #     print(moon_phase), "Moon Phase", moonPercent
     return moon_phase, "Moon Phase", moonPercent
-moonTime = (year, month, day+29.53059)
+moonTime = (year, month, day+30.53059)
 mc = ephem.Moon(moonTime)
 
 moonConstellation = (ephem.constellation(mc))
@@ -630,6 +636,14 @@ def zodiacDegree(planetPosition):
     zodMinPos =  float(positionChrC)/60
     zD = zodDegPos + zodMinPos + zodSignDegree
     return zD
+ 
+def retroCheck(planetPosition, planetPositionD):
+    if planetPosition < planetPositionD:
+        retro = True
+        print "RETROGRADE",planetPosition
+    else: 
+        retro = False
+    return retro
     
 
 def _create_circle(self, x, y, r, **kwargs):
@@ -810,12 +824,15 @@ def App():
     #positions
 
     dtime = datetime.datetime(year, month, day, hour, minute, second, 0, pyastro.UTC())
+    dtimeYesterday = datetime.datetime(year, month, day-1, hour, minute, second, 0, pyastro.UTC())
     # print year
     # print month
     # print day
     # print hour 
     # print minute
-#     print dtime, "dtime now"
+    print dtime, "dtime now"
+    print dtimeYesterday, "dtimeYesterday"
+#     break
     mon = pyastro.Moon(dtime)
     mer = pyastro.Mercury(dtime)
     ven = pyastro.Venus(dtime)
@@ -829,7 +846,6 @@ def App():
     
     
     monrasc = (mon.right_ascension(formatted=False))
-    # ms=mon.rec_to_sph()
     merrasc = (mer.right_ascension(formatted=False))
     venrasc = (ven.right_ascension(formatted=False))
     solrasc = (sol.right_ascension(formatted=False))
@@ -853,6 +869,43 @@ def App():
     plutoPosition = pyastro.rasc_to_zodiac(plurasc)
     
     
+    #retro check
+    monD = pyastro.Moon(dtimeYesterday)
+    merD = pyastro.Mercury(dtimeYesterday)
+    venD = pyastro.Venus(dtimeYesterday)
+    solD = pyastro.Sun(dtimeYesterday)
+    marD = pyastro.Mars(dtimeYesterday)
+    jupD = pyastro.Jupiter(dtimeYesterday)
+    satD = pyastro.Saturn(dtimeYesterday)
+    nepD = pyastro.Neptune(dtimeYesterday)
+    uraD = pyastro.Uranus(dtimeYesterday)
+    pluD = pyastro.Pluto(dtimeYesterday)
+    
+    
+    monrascD = (monD.right_ascension(formatted=False))
+    merrascD = (merD.right_ascension(formatted=False))
+    venrascD = (venD.right_ascension(formatted=False))
+    solrascD = (solD.right_ascension(formatted=False))
+    marrascD = (marD.right_ascension(formatted=False))
+    juprascD = (jupD.right_ascension(formatted=False))
+    satrascD = (satD.right_ascension(formatted=False))
+    neprascD = (nepD.right_ascension(formatted=False))
+    urarascD = (uraD.right_ascension(formatted=False))
+    plurascD = (pluD.right_ascension(formatted=False))
+    
+    
+    moonPositionD = pyastro.rasc_to_zodiac(monrascD)
+    mercuryPositionD = pyastro.rasc_to_zodiac(merrascD)
+    venusPositionD = pyastro.rasc_to_zodiac(venrascD)
+    solPositionD = pyastro.rasc_to_zodiac(solrascD)
+    marsPositionD = pyastro.rasc_to_zodiac(marrascD)
+    jupiterPositionD = pyastro.rasc_to_zodiac(juprascD)
+    saturnPositionD = pyastro.rasc_to_zodiac(satrascD)
+    neptunePositionD = pyastro.rasc_to_zodiac(neprascD)
+    uranusPositionD = pyastro.rasc_to_zodiac(urarascD)
+    plutoPositionD = pyastro.rasc_to_zodiac(plurascD)
+    
+    
     print "Moon:    ",moonPosition 
     print "Mercury: ",mercuryPosition
     print "Venus:   ",venusPosition 
@@ -864,17 +917,17 @@ def App():
     print "Uranus:  ",uranusPosition 
     print "Pluto:   ",plutoPosition 
     
-    planetPos = ("Moon:    ",moonPosition,"\n", 
-                 "Mercury: ",mercuryPosition,"\n",
-                 "Venus:   ",venusPosition ,"\n",
-                 "Sun:     ",solPosition ,"\n",
-                 "Mars:    ",marsPosition,"\n",
-                 "Jupiter: ",jupiterPosition,"\n",
-                 "Saturn:  ",saturnPosition,"\n",
-                 "Neptune: ",neptunePosition,"\n",
-                 "Uranus:  ",uranusPosition ,"\n",
-                 "Pluto:   ",plutoPosition,"\n" )
-     
+#     planetPos = ("Moon:    ",moonPosition,"\n", 
+#                  "Mercury: ",mercuryPosition,"\n",
+#                  "Venus:   ",venusPosition ,"\n",
+#                  "Sun:     ",solPosition ,"\n",
+#                  "Mars:    ",marsPosition,"\n",
+#                  "Jupiter: ",jupiterPosition,"\n",
+#                  "Saturn:  ",saturnPosition,"\n",
+#                  "Neptune: ",neptunePosition,"\n",
+#                  "Uranus:  ",uranusPosition ,"\n",
+#                  "Pluto:   ",plutoPosition,"\n" )
+#      
     moPo = zodiacDegree(moonPosition)
     mePo = zodiacDegree(mercuryPosition)
     vePo = zodiacDegree(venusPosition)
@@ -886,6 +939,43 @@ def App():
     urPo = zodiacDegree(uranusPosition)
     plPo = zodiacDegree(plutoPosition)
     #invert for clockwise rotation
+
+    planetPos = ("Moon:    ", moonPosition, moPo, "\n", 
+                 "Mercury: ",mercuryPosition, mePo, "\n",
+                 "Venus:   ",venusPosition , vePo, "\n",
+                 "Sun:     ",solPosition , soPo, "\n",
+                 "Mars:    ",marsPosition, maPo, "\n",
+                 "Jupiter: ",jupiterPosition,juPo, "\n",
+                 "Saturn:  ",saturnPosition,saPo, "\n",
+                 "Neptune: ",neptunePosition,nePo, "\n",
+                 "Uranus:  ",uranusPosition ,urPo, "\n",
+                 "Pluto:   ",plutoPosition,plPo, "\n" )
+    
+    #planet position 24 hours ago
+    moPoD = zodiacDegree(moonPositionD)
+    mePoD = zodiacDegree(mercuryPositionD)
+    vePoD = zodiacDegree(venusPositionD)
+    soPoD = zodiacDegree(solPositionD)
+    maPoD = zodiacDegree(marsPositionD)
+    juPoD = zodiacDegree(jupiterPositionD)
+    saPoD = zodiacDegree(saturnPositionD)
+    nePoD = zodiacDegree(neptunePositionD)
+    urPoD = zodiacDegree(uranusPositionD)
+    plPoD = zodiacDegree(plutoPositionD)
+    
+
+    planetPosD = ("Moon:    ",retroCheck(moPo, moPoD),moonPositionD, moPoD, "\n", 
+                 "Mercury: ",retroCheck(mePo, mePoD),mercuryPositionD, mePoD, "\n",
+                 "Venus:   ",retroCheck(vePo, vePoD),venusPositionD , vePoD, "\n",
+                 "Sun:     ",retroCheck(soPo, soPoD),solPositionD , soPoD, "\n",
+                 "Mars:    ",retroCheck(maPo, maPoD),marsPositionD, maPoD, "\n",
+                 "Jupiter: ",retroCheck(juPo, juPoD),jupiterPositionD,juPoD, "\n",
+                 "Saturn:  ",retroCheck(saPo, saPoD),saturnPositionD,saPoD, "\n",
+                 "Neptune: ",retroCheck(nePo, nePoD),neptunePositionD,nePoD, "\n",
+                 "Uranus:  ",retroCheck(urPo, urPoD),uranusPositionD ,urPoD, "\n",
+                 "Pluto:   ",retroCheck(plPo, plPoD),plutoPositionD,plPoD, "\n" )
+     
+
     
 #     print hour, minute
     hourLargeDegree = -((360/12)*hour)
@@ -909,7 +999,7 @@ def App():
 #     ttt = str(previouS)
 #     ttt.strip("{")
 #     ttt.strip("}")
-    canvas.create_text(250,500, tags ="label1",text=ttt)
+    canvas.create_text(250,400, tags ="label1",text=ttt)
     
 # #planet label
 #     canvas.create_text(900,200, text = (planetPos))
@@ -1379,7 +1469,8 @@ def App():
     
 #planet label
     canvas.delete("label2") 
-    canvas.create_text(1500,200, tags = "label2",text = (planetPos))
+    canvas.create_text(1500,100, tags = "label2",text = (planetPos))
+    canvas.create_text(1500,900, tags = "label2",text = (planetPosD))
     
     
     root.wm_title("astronomical lunar mansion clock")
