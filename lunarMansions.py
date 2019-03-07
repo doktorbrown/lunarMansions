@@ -799,10 +799,10 @@ def App():
     print sunSet
     print sunDegree(sunRise, planetaryHourDayLength), "sunDegree"
     sunUp = (offSet+42) - sunDegree(sunRise, planetaryHourDayLength)
-#     print sunUp, "sunUp"
-#     print clockPosition(dI[2].strftime("%H:%M"))
-#     print "start", clockPosition(dI[2].strftime("%H:%M"))+offSet 
-#     print "end", clockPosition(dI[3].strftime("%H:%M"))+offSet
+    print sunUp, "sunUp"
+    print clockPosition(dI[2].strftime("%H:%M"))
+    print "start", clockPosition(dI[2].strftime("%H:%M"))+offSet 
+    print "end", clockPosition(dI[3].strftime("%H:%M"))+offSet
     sunUpPlus = pHourDegree(planetaryHourDayLength)
     print sunUpPlus, "sunUpPlus"
 #     sunDown = (offSet/2) - sunDegree(sunSet, planetaryHourNightLength)
@@ -812,9 +812,9 @@ def App():
     print pNightDegree(planetaryHourNightLength) , "pNightDegree"
 
     sunDownPlus = pNightDegree(planetaryHourNightLength)
-#     print sunDown, "sunDown"
-#     print sunDownPlus , "sunDownPlus"
-#     print (sunDownPlus - sunDown )
+    print sunDown, "sunDown"
+    print sunDownPlus , "sunDownPlus"
+    print (sunDownPlus - sunDown )
     
     time = datetime.datetime.now().strftime("Time: %H:%M:%S")
 #     print time, "this is the mofo"
@@ -1204,7 +1204,9 @@ def App():
 
 #offsets
 
-    offsetB = 86
+    offsetB = sunUp -90
+    print offsetB, "offsetB"
+    
     offsetC = 93
 
 #refresh hours if needed  
