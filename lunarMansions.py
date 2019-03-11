@@ -11,7 +11,7 @@ Created on Nov 22, 2018
 '''
 
 '''
-Created on March 6, 2018 
+Created on March 11, 2018 
 
 @author: catawbafellini
 '''
@@ -145,20 +145,22 @@ timezone = city.timezone
 
 # print('Latitude: %.02f; Longitude: %.02f' % (city.latitude, city.longitude))
 # Latitude: 51.60; Longitude: 0.08
-# print "Local current time :", localtime
+print "Local current time :", localtime
 now = localtime.split(" ")
 print now
-# print now[4], "now"
-hms = now[4]
-# print hms ,"hms"
+
+# weird shit happens here....sometimes [3]....sometimes [4]???
+print now[3], "now"
+hms = now[3]
+print hms ,"hms"
 
 hour = int(hms.split(":")[0])
-# print "hour",hour
-# print (hms.split(":")[1])
+print "hour",hour
+print (hms.split(":")[1])
 minute = int(hms.split(":")[1])
-# print "minute", minute
+print "minute", minute
 second = int(hms.split(":")[2])
-# print second
+print second
 
 # print "Sun is in",sunConstellation[1]
 sun = city.sun(date=datetime.date(year, month, day), local=True)
@@ -170,41 +172,45 @@ sun = city.sun(date=datetime.date(year, month, day), local=True)
 
 # print(sun)
 sunRise = (sun['sunrise'])
-# print sunRise, "sunRise"
+print sunRise, "sunRise"
 sunSet = (sun['sunset'])
-# print sunSet, "sunSet"
+print sunSet, "sunSet"
 dayTime = sunSet - sunRise
-# print dayTime, "dayTime"
+print dayTime, "dayTime"
 
 sunTomorrow = city.sun(date=datetime.date(morrow[0],morrow[1],morrow[2]), local=True)
+print sunTomorrow, "sunTomorrow"
 nextSunrise = sunTomorrow['sunrise']
 
 sunYesterday = city.sun(date=datetime.date(yester[0],yester[1],yester[2]), local=True)
 lastSunSet = sunYesterday['sunset']
 lastSunrise = sunYesterday['sunrise']
 
-# print lastSunrise, "lastSunrise"
-# print lastSunset, "lastSunset"
+print lastSunrise, "lastSunrise"
+print lastSunSet, "lastSunset"
 lastDayTime = lastSunSet - lastSunrise
 lastNightTime = sunRise - lastSunSet
 
 
-# print nextSunrise, "nextSunrise"
+print nextSunrise, "nextSunrise"
 nightTime = nextSunrise - sunSet
 
-# print lastNightTime, "lastNightTime"
-# print nightTime, "nightTime"
+print lastNightTime, "lastNightTime"
+print nightTime, "nightTime"
 
-# print lastDayTime, "lastDayTime"
-# print(dayTime), "daytime"
+print lastDayTime, "lastDayTime"
+print(dayTime), "daytime"
 
 planetaryHourDayLength = (dayTime/12)
 
 lastPlanetaryHourDayLength = (lastDayTime/12)
-# print lastPlanetaryHourDayLength, "lastPlanetaryHourDayLength"
+print lastPlanetaryHourDayLength, "lastPlanetaryHourDayLength"
 
 planetaryHourNightLength = (nightTime/12)
 lastPlanetaryHourNightLength = (lastNightTime/12)
+print nightTime, "nightTime"
+print planetaryHourNightLength, "planetaryHourNightLength"
+print lastPlanetaryHourNightLength, "lastPlanetaryHourNightLength"
 
 
 
@@ -794,27 +800,27 @@ def App():
     
     print planetaryColor(I[1])
     
-    print  planetaryHourDayLength
-    print (sunRise)
-    print sunSet
-    print sunDegree(sunRise, planetaryHourDayLength), "sunDegree"
-    sunUp = (offSet+42) - sunDegree(sunRise, planetaryHourDayLength)
+#     print  planetaryHourDayLength
+#     print (sunRise)
+#     print sunSet
+#     print sunDegree(sunRise, planetaryHourDayLength), "sunDegree"
+    sunUp = (offSet+75) - sunDegree(sunRise, planetaryHourDayLength)
     print sunUp, "sunUp"
-    print clockPosition(dI[2].strftime("%H:%M"))
-    print "start", clockPosition(dI[2].strftime("%H:%M"))+offSet 
-    print "end", clockPosition(dI[3].strftime("%H:%M"))+offSet
+#     print clockPosition(dI[2].strftime("%H:%M"))
+#     print "start", clockPosition(dI[2].strftime("%H:%M"))+offSet 
+#     print "end", clockPosition(dI[3].strftime("%H:%M"))+offSet
     sunUpPlus = pHourDegree(planetaryHourDayLength)
-    print sunUpPlus, "sunUpPlus"
+#     print sunUpPlus, "sunUpPlus"
 #     sunDown = (offSet/2) - sunDegree(sunSet, planetaryHourNightLength)
-    sunDown = (-sunDegree(sunSet, planetaryHourNightLength)-(3*offSet) )-24.5-0.010409712
+    sunDown = (-sunDegree(sunSet, planetaryHourNightLength)-(3*offSet) )-25.5-0.010409712
    
     print pHourDegree(planetaryHourDayLength), "pHourDegree"
     print pNightDegree(planetaryHourNightLength) , "pNightDegree"
 
     sunDownPlus = pNightDegree(planetaryHourNightLength)
-    print sunDown, "sunDown"
-    print sunDownPlus , "sunDownPlus"
-    print (sunDownPlus - sunDown )
+#     print sunDown, "sunDown"
+#     print sunDownPlus , "sunDownPlus"
+#     print (sunDownPlus - sunDown )
     
     time = datetime.datetime.now().strftime("Time: %H:%M:%S")
 #     print time, "this is the mofo"
@@ -1207,7 +1213,7 @@ def App():
     offsetB = sunUp -90
     print offsetB, "offsetB"
     
-    offsetC = 93
+    offsetC = 126
 
 #refresh hours if needed  
     canvas.delete("hours") 
