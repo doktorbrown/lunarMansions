@@ -1,9 +1,16 @@
 '''
 Created on Feb 1, 2019
 
+'''
+
+'''
 Created on Nov 22, 2018 
 
-Created on March 20, 2018 
+
+'''
+
+'''
+Created on March 22, 2018 
 
 '''
 # import datetime
@@ -842,7 +849,7 @@ def App():
     plu = pyastro.Pluto(dtime)
     
 #planetary correction offsets 03.19.19
-    moonOffset = -0.81
+    moonOffset = 0.23 #vernal equinox full moon calibration 0.23  03.20.19
     mercuryOffset = 0.47
     venusOffset = -2.04
     solOffset = 0.28
@@ -1224,7 +1231,8 @@ def App():
 #offsets
 
 #     offsetB = sunUp -90
-    offsetB = -65
+#     offsetB = -55.5  #thursday 03.21.2019 0715 sunrise
+    offsetB = -35.5  #friday
 #     offsetB = 90
     print offsetB, "offsetB"
     
