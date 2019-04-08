@@ -1,18 +1,22 @@
 '''
 Created on Feb 1, 2019
 
-'''
+@author: catawbafellini
 
-'''
 Created on Nov 22, 2018 
 
+@author: catawbafellini
 
+Created on March 6, 2018 
+
+@author: catawbafellini
+
+Created on April 7, 2018
+
+@author: catawbafellini
 '''
 
-'''
-Created on March 22, 2018 
 
-'''
 # import datetime
 import pyastro
 #02/22/2019 modified with updated JPL keplerian elements from https://ssd.jpl.nasa.gov/txt/p_elem_t2.txt
@@ -35,12 +39,14 @@ import datetime
  
 # https://github.com/sffjunkie/astral   pip install astral
 # import swisseph as swe
+
 # from Planetaries import Hours
+
 root = tk.Tk()
 canvas = tk.Canvas(root, width=1900, height=1000, borderwidth=0, highlightthickness=0, bg="#d3d3d3")
 canvas.grid()
 
-
+#currently this needs to be added to the 
 city_name = 'Spruce Creek'
 # city_name = 'Chicago'
 
@@ -148,14 +154,14 @@ now = localtime.split(" ")
 print now
 
 # weird shit happens here....sometimes [3]....sometimes [4]???
-print now[3], "now"
-hms = now[3]
+print now[4], "now"
+hms = now[4]
 print hms ,"hms"
 
 hour = int(hms.split(":")[0])
 print "hour",hour
-print (hms.split(":")[1])
-minute = int(hms.split(":")[1])
+print (hms.split(":")[0])
+minute = int(hms.split(":")[1]) 
 print "minute", minute
 second = int(hms.split(":")[2])
 print second
@@ -561,7 +567,7 @@ def pNightDegree(planetaryHourNightLength):
 
 
 def clockPosition(time):
-#     print time, "time"
+#     print time, "time in clock position"
     clockY = str(dayTime/12)
 #     print clockY, "clockY"
     t = clockY.split(":")
@@ -577,7 +583,11 @@ def clockPosition(time):
 #     print "timey wimey"
 #     print h, hDegree, "h, hDegree"
 #     print m, hMinute, "m, hMinute"
-    position = (hDegree - hMinute) 
+#check for less than or greater than 1 hour 
+    if hDegree == 0:
+        position = (hDegree - hMinute) #less than 30 degrees
+    else:
+        position =  (hDegree + hMinute) #more than 30 degrees
 #     print "position", position 
     return position
 
@@ -598,7 +608,11 @@ def clockPositionNight(time):
 #     print "timey wimey"
 #     print h, hDegree
 #     print m, hMinute
-    position = -(hDegree + hMinute) 
+#check for less than or greater than 1 hour 
+    if hDegree == 0:
+        position = (hDegree - hMinute) #less than 30 degrees
+    else:
+        position =  (hDegree + hMinute) #more than 30 degrees
 #     print "position", position 
     return position
 
@@ -617,7 +631,7 @@ def zodiacDegree(planetPosition):
         zodSignDegree = 0
     elif str(positionChrB) == "TA":
         zodSignDegree = 30
-    elif str(positionChrB) == "GM":
+    elif str(positionChrB) == "GE":
         zodSignDegree = 60
     elif str(positionChrB) == "CN":
         zodSignDegree = 90
@@ -687,7 +701,7 @@ def App():
     offSet = 90
     
 #     offSet = 180
-    correctionFactorA = 1.3
+#     correctionFactorA = 1.3
 
 #     yesterHours(lastSunSet, lastPlanetaryHourNightLength, yesterDaysDay, localtime)
 #     todayHours(sunRise, planetaryHourDayLength, todaysDay, localtime)
@@ -848,7 +862,7 @@ def App():
     ura = pyastro.Uranus(dtime)
     plu = pyastro.Pluto(dtime)
     
-#planetary correction offsets 03.19.19
+# #planetary correction offsets 03.19.19
     moonOffset = 0.23 #vernal equinox full moon calibration 0.23  03.20.19
     mercuryOffset = 0.47
     venusOffset = -2.04
@@ -859,6 +873,18 @@ def App():
     neptuneOffset = -0.6
     uranusOffset = 1.25
     plutoOffset = -1.62
+
+#planetary correction offsets 04.04.19
+#     moonOffset = 0 #vernal equinox full moon calibration 0.23  03.20.19
+#     mercuryOffset = 0
+#     venusOffset = 0
+#     solOffset = 0
+#     marsOffset =  0
+#     jupiterOffset = 0
+#     saturnOffset = 0
+#     neptuneOffset = 0
+#     uranusOffset = 0
+#     plutoOffset = 0
     
     monrasc = (mon.right_ascension(formatted=False)) + moonOffset
 #     print monrasc
@@ -870,7 +896,7 @@ def App():
     satrasc = (sat.right_ascension(formatted=False)) + saturnOffset
     neprasc = (nep.right_ascension(formatted=False)) + neptuneOffset
     urarasc = (ura.right_ascension(formatted=False)) + uranusOffset
-    plurasc = (plu.right_ascension(formatted=False)) + plutoOffset
+    plurasc = (plu.right_ascension(formatted=False)) + plutoOffset 
     
     
     moonPosition = pyastro.rasc_to_zodiac(monrasc)
@@ -998,11 +1024,11 @@ def App():
     
 #     print hour, minute
     hourLargeDegree = -((360/12)*hour)
-#     print hourLargeDegree, "hourLargeDegree"
+    print hourLargeDegree, "hourLargeDegree"
 #     print minute
     
     hourSmallDegree = float(minute/60.0)*-30.0
-#     print hourSmallDegree, "hourSmallDegree"
+    print hourSmallDegree, "hourSmallDegree"
     #     hourHand = -((360/12)*hour)+(-30*(minute/60))
     hourHand = hourLargeDegree + hourSmallDegree
     
@@ -1232,16 +1258,29 @@ def App():
 
 #     offsetB = sunUp -90
 #     offsetB = -55.5  #thursday 03.21.2019 0715 sunrise
-    offsetB = -35.5  #friday
+#     offsetB = -35.5  #friday
+#     offsetB = -17.5  #saturday
+#     offsetB = -4.5 #sunday
+#     offsetB = 10.5  #monday
+#     offsetB = 45 #tuesday
+#     offsetB = 58 #wednesday  
+    offsetB = 168
+    
 #     offsetB = 90
     print offsetB, "offsetB"
     
-    offsetC = -315
+    offsetC = 60
+    offsetD = 5
+    
 
 #refresh hours if needed  
     canvas.delete("hours") 
 #previous night hours
     theSunWasUp = sunDegree(lastSunSet, lastPlanetaryHourNightLength)
+    print theSunWasUp ,"theSunWasUp"
+    print theSunWasUp + offsetC,"theSunWasUp + offsetC"
+    print abs(clockPositionNight(lastPlanetaryHourNightLength)),"abs(clockPositionNight(lastPlanetaryHourNightLength))"
+    
 #     
     canvas.create_circle_arc(950, 500, 340, fill=planetaryColor(pI[1]), 
                             outline="#000000", tags="hours",
@@ -1307,7 +1346,9 @@ def App():
 #day hours
   
     theSunIsUp = sunDegree(sunRise, planetaryHourDayLength)
-    
+    print theSunIsUp, "theSunIsUp"
+    print planetaryHourDayLength, "planetaryHourDayLength"
+    print abs(clockPosition(planetaryHourDayLength)), "abs(clockPosition(planetaryHourDayLength))"
     canvas.create_circle_arc(950, 500, 335, 
                              fill = planetaryColor(dI[0]), 
                              outline ="#000000", tags="hours",
@@ -1361,7 +1402,7 @@ def App():
                              outline="#000000", tags="hours",
                              start=(offsetB -theSunIsUp- (10*clockPosition(planetaryHourDayLength))),
                             end=(offsetB -theSunIsUp- (11*clockPosition(planetaryHourDayLength))))
-    canvas.create_circle_arc(950, 500, 335, fill=planetaryColor(dXII[0]), 
+    canvas.create_circle_arc(950, 500, 315, fill=planetaryColor(dXII[0]), 
                              outline="#000000", tags="hours",
                              start=(offsetB -theSunIsUp- (11*clockPosition(planetaryHourDayLength))),
                             end=(offsetB -theSunIsUp- (12*clockPosition(planetaryHourDayLength))))
@@ -1370,12 +1411,16 @@ def App():
 # #night hours
 # # 
 #     theSunIsDown = sunDegree(sunSet, planetaryHourNightLength)
-    theSunIsDown = (offsetB - theSunIsUp - (12*clockPosition(planetaryHourDayLength)))  
-    canvas.create_circle_arc(950, 500, 310, 
+    theSunIsDown = (offsetB - offsetD - theSunIsUp - (12*clockPosition(planetaryHourDayLength)))  
+    print theSunIsDown, "theSunIsDown"
+    print theSunIsDown + 720 , "theSunIsDown + 720"
+    print abs(clockPositionNight(planetaryHourNightLength)),"abs(clockPositionNight(planetaryHourNightLength))"
+    
+    canvas.create_circle_arc(950, 500, 300, 
                             fill=planetaryColor(I[1]), 
                             outline="#000000", tags="hours",
                             start = (theSunIsDown),
-                            end = (theSunIsDown+ (1*clockPositionNight(planetaryHourNightLength))))
+                            end = (theSunIsDown + (1*clockPositionNight(planetaryHourNightLength))))
     canvas.create_circle_arc(950, 500, 300, 
                             fill=planetaryColor(II[1]), 
                             outline="#000000", tags="hours",
