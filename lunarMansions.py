@@ -11,7 +11,7 @@ Created on March 6, 2018
 
 @author: catawbafellini
 
-Created on April 7, 2018
+Created on April 12, 2018
 
 @author: catawbafellini
 '''
@@ -153,10 +153,17 @@ print "Local current time :", localtime
 now = localtime.split(" ")
 print now
 
-# weird shit happens here....sometimes [3]....sometimes [4]???
-print now[4], "now"
-hms = now[4]
-print hms ,"hms"
+# weird shit happens here....sometimes [3]....sometimes [4]??? single vs. double digit date?
+print len(now[4]), "now4"
+print len(now[3]), "now3"
+#MAYBE THIS FIXES?
+if len(now[4])== 4:
+
+    hms = now[3]
+else:
+    hms = now[4]
+    
+print hms ,"hms "
 
 hour = int(hms.split(":")[0])
 print "hour",hour
@@ -1264,13 +1271,13 @@ def App():
 #     offsetB = 10.5  #monday
 #     offsetB = 45 #tuesday
 #     offsetB = 58 #wednesday  
-    offsetB = 168
+    offsetB = 205
     
 #     offsetB = 90
     print offsetB, "offsetB"
     
     offsetC = 60
-    offsetD = 5
+    offsetD = 2
     
 
 #refresh hours if needed  
