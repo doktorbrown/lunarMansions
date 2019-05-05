@@ -28,7 +28,8 @@ import ephem
 from astral import Astral
 import Tkinter as tk 
 from Tkinter import *
-import datetime
+import time as chron
+import logger
 
 # root = Tk() 
 # 
@@ -42,20 +43,30 @@ import datetime
 
 # from Planetaries import Hours
 
+log = logger.Logger()
+
+log.logMsg("starting up...")
+
+prev_entry = 0
+this_entry = 0
+
 root = tk.Tk()
 canvas = tk.Canvas(root, width=1900, height=1000, borderwidth=0, highlightthickness=0, bg="#d3d3d3")
 canvas.grid()
+root.wm_title("astronomical lunar mansion clock")
 
 #currently this needs to be added to the 
-city_name = 'Spruce Creek'
-# city_name = 'Chicago'
 
-# print time.time()
-# print time.time()+3600
+
+city_name = 'Spruce Creek'
+#city_name = 'Chicago'
+
+# #print time.time()
+# #print time.time()+3600
 julianC = time.localtime(time.time()-(86400*13))
-print "julianC=",julianC
+#print "julianC=",julianC
 yester= time.localtime(time.time()-86400)
-# print time.localtime(time.time())
+# #print time.localtime(time.time())
 morrow= time.localtime(time.time()+86400)
 
 def timeUpdate():
@@ -63,15 +74,15 @@ def timeUpdate():
 
 
 localtime = timeUpdate()
-# print localtime
+# #print localtime
 
 todayDate=datetime.date.today()
-# print todayDate
+# #print todayDate
 
 
 dayOfWeek = todayDate.weekday()
 yesterDayOfWeek = dayOfWeek -1
-# print yesterDayOfWeek
+# #print yesterDayOfWeek
 
 if yesterDayOfWeek == 0:
     yesterDaysDay = "Monday       Moon"
@@ -88,10 +99,10 @@ elif yesterDayOfWeek == 5:
 else:
     yesterDaysDay = "Sunday       Sun"
     
-# print yesterDaysDay
+# #print yesterDaysDay
 
 
-# print dayOfWeek
+# #print dayOfWeek
 
 if dayOfWeek == 0:
     todaysDay = "Monday       Moon"
@@ -108,54 +119,55 @@ elif dayOfWeek == 5:
 else:
     todaysDay = "Sunday       Sun"
     
-# print todaysDay
+# #print todaysDay
     
 dateE=str(todayDate)
-# print dateE
-# print todayDate + 1
-# print todayDate - 1
+# #print dateE
+# #print todayDate + 1
+# #print todayDate - 1
 dateSplit=dateE.split("-")
-# print(dateSplit)
+# #print(dateSplit)
 year = int(dateSplit[0])
-# print(year)
+# #print(year)
 month = int(dateSplit[1])
-# print(month)
+# #print(month)
 day = int(dateSplit[2])
-# print(day)
-# print(datetime.date.today())
-# print(time.time()) 
+# #print(day)
+# #print(datetime.date.today())
+# #print(time.time()) 
 
 sunTime =(year, month, day+30.53059)
 
 m = ephem.Sun(sunTime)
-# print m
+# #print m
 sunConstellation = (ephem.constellation(m))
 sunLoc = m.ra, m.dec
-# print "sunLoc",sunLoc
+# #print "sunLoc",sunLoc
 
 
 
 a = Astral()
+a.geocoder.add_locations([("Spruce Creek","USA",40.646256,-78.090935,"US/Central",282)])
 a.solar_depression = 'civil'
 
 city = a[city_name]
 
-# print('Information for %s/%s' % (city_name, city.region))
+# #print('Information for %s/%s' % (city_name, city.region))
 # Information for London/England
 
 timezone = city.timezone
-# print('Timezone: %s' % timezone)
+# #print('Timezone: %s' % timezone)
 # Timezone: Europe/London
 
-# print('Latitude: %.02f; Longitude: %.02f' % (city.latitude, city.longitude))
+# #print('Latitude: %.02f; Longitude: %.02f' % (city.latitude, city.longitude))
 # Latitude: 51.60; Longitude: 0.08
-print "Local current time :", localtime
+#print "Local current time :", localtime
 now = localtime.split(" ")
-print now
+#print now
 
 # weird shit happens here....sometimes [3]....sometimes [4]??? single vs. double digit date?
-print (now[4]), "now4"
-print (now[3]), "now3"
+#print (now[4]), "now4"
+#print (now[3]), "now3"
 #MAYBE THIS FIXES?
 if len(now[4])== 4:
 
@@ -163,67 +175,67 @@ if len(now[4])== 4:
 else:
     hms = now[4]
     
-print hms ,"hms "
+#print hms ,"hms "
 
 hour = int(hms.split(":")[0])
-print "hour",hour
-print (hms.split(":")[0])
+#print "hour",hour
+#print (hms.split(":")[0])
 minute = int(hms.split(":")[1]) 
-print "minute", minute
+#print "minute", minute
 second = int(hms.split(":")[2])
-print second
+#print second
 
-# print "Sun is in",sunConstellation[1]
+# #print "Sun is in",sunConstellation[1]
 sun = city.sun(date=datetime.date(year, month, day), local=True)
-# print('Dawn:    %s' % str(sun['dawn']))
-# print('Sunrise: %s' % str(sun['sunrise']))
-# print('Noon:    %s' % str(sun['noon']))
-# print('Sunset:  %s' % str(sun['sunset']))
-# print('Dusk:    %s' % str(sun['dusk']))
+# #print('Dawn:    %s' % str(sun['dawn']))
+# #print('Sunrise: %s' % str(sun['sunrise']))
+# #print('Noon:    %s' % str(sun['noon']))
+# #print('Sunset:  %s' % str(sun['sunset']))
+# #print('Dusk:    %s' % str(sun['dusk']))
 
-# print(sun)
+# #print(sun)
 sunRise = (sun['sunrise'])
-print sunRise, "sunRise"
-print sunRise.hour, "sunRise.hour"
-print sunRise.minute, "sunRise.minute"
+#print sunRise, "sunRise"
+#print sunRise.hour, "sunRise.hour"
+#print sunRise.minute, "sunRise.minute"
 sunSet = (sun['sunset'])
-print sunSet, "sunSet"
+#print sunSet, "sunSet"
 dayTime = sunSet - sunRise
-print dayTime, "dayTime"
+#print dayTime, "dayTime"
 
 sunTomorrow = city.sun(date=datetime.date(morrow[0],morrow[1],morrow[2]), local=True)
-print sunTomorrow, "sunTomorrow"
+#print sunTomorrow, "sunTomorrow"
 nextSunrise = sunTomorrow['sunrise']
 
 sunYesterday = city.sun(date=datetime.date(yester[0],yester[1],yester[2]), local=True)
 lastSunSet = sunYesterday['sunset']
 lastSunrise = sunYesterday['sunrise']
 
-print lastSunrise, "lastSunrise"
-print lastSunSet, "lastSunset"
+#print lastSunrise, "lastSunrise"
+#print lastSunSet, "lastSunset"
 lastDayTime = lastSunSet - lastSunrise
 lastNightTime = sunRise - lastSunSet
 
 
-print nextSunrise, "nextSunrise"
+#print nextSunrise, "nextSunrise"
 nightTime = nextSunrise - sunSet
 
-print lastNightTime, "lastNightTime"
-print nightTime, "nightTime"
+#print lastNightTime, "lastNightTime"
+#print nightTime, "nightTime"
 
-print lastDayTime, "lastDayTime"
-print(dayTime), "daytime"
+#print lastDayTime, "lastDayTime"
+#print(dayTime), "daytime"
 
 planetaryHourDayLength = (dayTime/12)
 
 lastPlanetaryHourDayLength = (lastDayTime/12)
-print lastPlanetaryHourDayLength, "lastPlanetaryHourDayLength"
+#print lastPlanetaryHourDayLength, "lastPlanetaryHourDayLength"
 
 planetaryHourNightLength = (nightTime/12)
 lastPlanetaryHourNightLength = (lastNightTime/12)
-print nightTime, "nightTime"
-print planetaryHourNightLength, "planetaryHourNightLength"
-print lastPlanetaryHourNightLength, "lastPlanetaryHourNightLength"
+#print nightTime, "nightTime"
+#print planetaryHourNightLength, "planetaryHourNightLength"
+#print lastPlanetaryHourNightLength, "lastPlanetaryHourNightLength"
 
 
 
@@ -231,17 +243,17 @@ def moonCheck(a, year, month, day):
     moon_phase = a.moon_phase(date=datetime.date(year, month, day))
     
     moonPercent = moon_phase/29.53059
-#     print(moon_phase), "Moon Phase", moonPercent
+#     #print(moon_phase), "Moon Phase", moonPercent
     return moon_phase, "Moon Phase", moonPercent
 moonTime = (year, month, day+30.53059)
 mc = ephem.Moon(moonTime)
 
 moonConstellation = (ephem.constellation(mc))
 moonLoc = (mc.ra, mc.dec)
-# print moonLoc
-# print moonConstellation
-# print "Moon is in",moonConstellation[1]
-# print moonCheck(a, year, month, day)
+# #print moonLoc
+# #print moonConstellation
+# #print "Moon is in",moonConstellation[1]
+# #print moonCheck(a, year, month, day)
 
 class Hours:
         
@@ -446,7 +458,7 @@ class Hours:
 
 def yesterHours(lastSunSet, lastPlanetaryHourNightLength, yesterDaysDay, localtime): 
     h = Hours() 
-    # print h 
+    # #print h 
     
     # Previous day so we can show from 00:00 to sunrise
     pI = h.hourOne(lastSunSet, lastPlanetaryHourNightLength, yesterDaysDay, localtime)
@@ -461,22 +473,22 @@ def yesterHours(lastSunSet, lastPlanetaryHourNightLength, yesterDaysDay, localti
     pX = h.hourTen(lastSunSet, lastPlanetaryHourNightLength, yesterDaysDay, localtime)
     pXI = h.hourEleven(lastSunSet, lastPlanetaryHourNightLength, yesterDaysDay, localtime)
     pXII = h.hourTwelve(lastSunSet, lastPlanetaryHourNightLength, yesterDaysDay, localtime)
-    print " "
-    print "lastPlanetaryHourNightLength:", lastPlanetaryHourNightLength, localtime
-    print " "
-    print pI[1],pI[2].strftime("%H:%M"),pI[3].strftime("%H:%M"),pI[4],pI[5]
-    print pII[1],pII[2].strftime("%H:%M"),pII[3].strftime("%H:%M"),pII[4],pII[5]
-    print pIII[1],pIII[2].strftime("%H:%M"),pIII[3].strftime("%H:%M"),pIII[4],pIII[5]
-    print pIV[1],pIV[2].strftime("%H:%M"),pIV[3].strftime("%H:%M"),pIV[4],pIV[5]
-    print pV[1],pV[2].strftime("%H:%M"),pV[3].strftime("%H:%M"),pV[4],pV[5]
-    print pVI[1],pVI[2].strftime("%H:%M"),pVI[3].strftime("%H:%M"),pVI[4],pVI[5]
-    print pVII[1],pVII[2].strftime("%H:%M"),pVII[3].strftime("%H:%M"),pVII[4],pVII[5]
-    print pVIII[1],pVIII[2].strftime("%H:%M"),pVIII[3].strftime("%H:%M"),pVIII[4],pVIII[5]
-    print pIX[1],pIX[2].strftime("%H:%M"),pIX[3].strftime("%H:%M"),pIX[4],pIX[5]
-    print pX[1],pX[2].strftime("%H:%M"),pX[3].strftime("%H:%M"),pX[4],pX[5]
-    print pXI[1],pXI[2].strftime("%H:%M"),pXI[3].strftime("%H:%M"),pXI[4],pXI[5]
-    print pXII[1],pXII[2].strftime("%H:%M"),pXII[3].strftime("%H:%M"),pXII[4],pXII[5]
-    print" "
+    #print " "
+    #print "lastPlanetaryHourNightLength:", lastPlanetaryHourNightLength, localtime
+    #print " "
+    #print pI[1],pI[2].strftime("%H:%M"),pI[3].strftime("%H:%M"),pI[4],pI[5]
+    #print pII[1],pII[2].strftime("%H:%M"),pII[3].strftime("%H:%M"),pII[4],pII[5]
+    #print pIII[1],pIII[2].strftime("%H:%M"),pIII[3].strftime("%H:%M"),pIII[4],pIII[5]
+    #print pIV[1],pIV[2].strftime("%H:%M"),pIV[3].strftime("%H:%M"),pIV[4],pIV[5]
+    #print pV[1],pV[2].strftime("%H:%M"),pV[3].strftime("%H:%M"),pV[4],pV[5]
+    #print pVI[1],pVI[2].strftime("%H:%M"),pVI[3].strftime("%H:%M"),pVI[4],pVI[5]
+    #print pVII[1],pVII[2].strftime("%H:%M"),pVII[3].strftime("%H:%M"),pVII[4],pVII[5]
+    #print pVIII[1],pVIII[2].strftime("%H:%M"),pVIII[3].strftime("%H:%M"),pVIII[4],pVIII[5]
+    #print pIX[1],pIX[2].strftime("%H:%M"),pIX[3].strftime("%H:%M"),pIX[4],pIX[5]
+    #print pX[1],pX[2].strftime("%H:%M"),pX[3].strftime("%H:%M"),pX[4],pX[5]
+    #print pXI[1],pXI[2].strftime("%H:%M"),pXI[3].strftime("%H:%M"),pXI[4],pXI[5]
+    #print pXII[1],pXII[2].strftime("%H:%M"),pXII[3].strftime("%H:%M"),pXII[4],pXII[5]
+    #print" "
     return
 
 
@@ -495,22 +507,22 @@ def todayHours(sunRise, planetaryHourDayLength, todaysDay, localtime):
     dXI = h.hourEleven(sunRise, planetaryHourDayLength, todaysDay, localtime)
     dXII = h.hourTwelve(sunRise, planetaryHourDayLength, todaysDay, localtime)
     
-    print "planetaryHourDayLength:", planetaryHourDayLength, localtime
-    print " "
-    print dI[0],dI[2].strftime("%H:%M"),dI[3].strftime("%H:%M"),dI[4],dI[5]
-    print dII[0],dII[2].strftime("%H:%M"),dII[3].strftime("%H:%M"),dII[4],dII[5]
-    print dIII[0],dIII[2].strftime("%H:%M"),dIII[3].strftime("%H:%M"),dIII[4],dIII[5]
-    print dIV[0],dIV[2].strftime("%H:%M"),dIV[3].strftime("%H:%M"),dIV[4],dIV[5]
-    print dV[0],dV[2].strftime("%H:%M"),dV[3].strftime("%H:%M"),dV[4],dV[5]
-    print dVI[0],dVI[2].strftime("%H:%M"),dVI[3].strftime("%H:%M"),dVI[4],dVI[5]
-    print dVII[0],dVII[2].strftime("%H:%M"),dVII[3].strftime("%H:%M"),dVII[4],dVII[5]
-    print dVIII[0],dVIII[2].strftime("%H:%M"),dVIII[3].strftime("%H:%M"),dVIII[4],dVIII[5]
-    print dIX[0],dIX[2].strftime("%H:%M"),dIX[3].strftime("%H:%M"),dIX[4],dIX[5]
-    print dX[0],dX[2].strftime("%H:%M"),dX[3].strftime("%H:%M"),dX[4],dX[5]
-    print dXI[0],dXI[2].strftime("%H:%M"),dXI[3].strftime("%H:%M"),dXI[4],dXI[5]
-    print dXII[0],dXII[2].strftime("%H:%M"),dXII[3].strftime("%H:%M"),dXII[4],dXII[5]
+    #print "planetaryHourDayLength:", planetaryHourDayLength, localtime
+    #print " "
+    #print dI[0],dI[2].strftime("%H:%M"),dI[3].strftime("%H:%M"),dI[4],dI[5]
+    #print dII[0],dII[2].strftime("%H:%M"),dII[3].strftime("%H:%M"),dII[4],dII[5]
+    #print dIII[0],dIII[2].strftime("%H:%M"),dIII[3].strftime("%H:%M"),dIII[4],dIII[5]
+    #print dIV[0],dIV[2].strftime("%H:%M"),dIV[3].strftime("%H:%M"),dIV[4],dIV[5]
+    #print dV[0],dV[2].strftime("%H:%M"),dV[3].strftime("%H:%M"),dV[4],dV[5]
+    #print dVI[0],dVI[2].strftime("%H:%M"),dVI[3].strftime("%H:%M"),dVI[4],dVI[5]
+    #print dVII[0],dVII[2].strftime("%H:%M"),dVII[3].strftime("%H:%M"),dVII[4],dVII[5]
+    #print dVIII[0],dVIII[2].strftime("%H:%M"),dVIII[3].strftime("%H:%M"),dVIII[4],dVIII[5]
+    #print dIX[0],dIX[2].strftime("%H:%M"),dIX[3].strftime("%H:%M"),dIX[4],dIX[5]
+    #print dX[0],dX[2].strftime("%H:%M"),dX[3].strftime("%H:%M"),dX[4],dX[5]
+    #print dXI[0],dXI[2].strftime("%H:%M"),dXI[3].strftime("%H:%M"),dXI[4],dXI[5]
+    #print dXII[0],dXII[2].strftime("%H:%M"),dXII[3].strftime("%H:%M"),dXII[4],dXII[5]
     
-    print " "
+    #print " "
     return
 
 def toniteHours(sunSet, planetaryHourNightLength, todaysDay, localtime):
@@ -528,29 +540,29 @@ def toniteHours(sunSet, planetaryHourNightLength, todaysDay, localtime):
     XI = h.hourEleven(sunSet, planetaryHourNightLength, todaysDay, localtime)
     XII = h.hourTwelve(sunSet, planetaryHourNightLength, todaysDay, localtime)
     
-    print "planetaryHourNightLength:", planetaryHourNightLength, localtime 
-    print " "
-    print I[1],I[2].strftime("%H:%M"),I[3].strftime("%H:%M"),I[4],I[5]
-    print II[1],II[2].strftime("%H:%M"),II[3].strftime("%H:%M"),II[4],II[5]
-    print III[1],III[2].strftime("%H:%M"),III[3].strftime("%H:%M"),III[4],III[5]
-    print IV[1],IV[2].strftime("%H:%M"),IV[3].strftime("%H:%M"),IV[4],IV[5]
-    print V[1],V[2].strftime("%H:%M"),V[3].strftime("%H:%M"),V[4],V[5]
-    print VI[1],VI[2].strftime("%H:%M"),VI[3].strftime("%H:%M"),VI[4],VI[5]
-    print VII[1],VII[2].strftime("%H:%M"),VII[3].strftime("%H:%M"),VII[4],VII[5]
-    print VIII[1],VIII[2].strftime("%H:%M"),VIII[3].strftime("%H:%M"),VIII[4],VIII[5]
-    print IX[1],IX[2].strftime("%H:%M"),IX[3].strftime("%H:%M"),IX[4],IX[5]
-    print X[1],X[2].strftime("%H:%M"),X[3].strftime("%H:%M"),X[4],X[5]
-    print XI[1],XI[2].strftime("%H:%M"),XI[3].strftime("%H:%M"),XI[4],XI[5]
-    print XII[1],XII[2].strftime("%H:%M"),XII[3].strftime("%H:%M"),XII[4],XII[5]
+    #print "planetaryHourNightLength:", planetaryHourNightLength, localtime 
+    #print " "
+    #print I[1],I[2].strftime("%H:%M"),I[3].strftime("%H:%M"),I[4],I[5]
+    #print II[1],II[2].strftime("%H:%M"),II[3].strftime("%H:%M"),II[4],II[5]
+    #print III[1],III[2].strftime("%H:%M"),III[3].strftime("%H:%M"),III[4],III[5]
+    #print IV[1],IV[2].strftime("%H:%M"),IV[3].strftime("%H:%M"),IV[4],IV[5]
+    #print V[1],V[2].strftime("%H:%M"),V[3].strftime("%H:%M"),V[4],V[5]
+    #print VI[1],VI[2].strftime("%H:%M"),VI[3].strftime("%H:%M"),VI[4],VI[5]
+    #print VII[1],VII[2].strftime("%H:%M"),VII[3].strftime("%H:%M"),VII[4],VII[5]
+    #print VIII[1],VIII[2].strftime("%H:%M"),VIII[3].strftime("%H:%M"),VIII[4],VIII[5]
+    #print IX[1],IX[2].strftime("%H:%M"),IX[3].strftime("%H:%M"),IX[4],IX[5]
+    #print X[1],X[2].strftime("%H:%M"),X[3].strftime("%H:%M"),X[4],X[5]
+    #print XI[1],XI[2].strftime("%H:%M"),XI[3].strftime("%H:%M"),XI[4],XI[5]
+    #print XII[1],XII[2].strftime("%H:%M"),XII[3].strftime("%H:%M"),XII[4],XII[5]
     return
 
 def sunDegree(sunRise, planetaryHourDayLength):
     h=Hours()
     I = h.hourOne(sunRise, planetaryHourDayLength, todaysDay, localtime)
-#     print I[0],I[2].strftime("%H:%M"),I[3].strftime("%H:%M"),I[4],I[5]
+#     #print I[0],I[2].strftime("%H:%M"),I[3].strftime("%H:%M"),I[4],I[5]
     dayStart = (int(I[2].strftime("%H") )/12.0) + (int(I[2].strftime("%M"))/60.0)
 #     dayStart =  (int(I[2].strftime("%M"))/60.0)
-#     print 360.0/dayStart
+#     #print 360.0/dayStart
     
     return 360.0/dayStart
 
@@ -564,10 +576,10 @@ def pHourDegree(planetaryHourDayLength):
     return degree
 
 def pNightDegree(planetaryHourNightLength):
-#     print planetaryHourNightLength, "phnl"
+#     #print planetaryHourNightLength, "phnl"
     phd = str(planetaryHourNightLength)
     h = 30.0*int(phd.split(":")[0])
-#     print "hhhhhh", h
+#     #print "hhhhhh", h
 #     h = 24-h 
     m = int(phd.split(":")[1]) / 60.0
 #     s = float(phd.split(":")[2]) / 3600.0
@@ -576,53 +588,53 @@ def pNightDegree(planetaryHourNightLength):
 
 
 def clockPosition(time):
-#     print time, "time in clock position"
+#     #print time, "time in clock position"
     clockY = str(dayTime/12)
-#     print clockY, "clockY"
+#     #print clockY, "clockY"
     t = clockY.split(":")
-#     print t, "t"
+#     #print t, "t"
     h = int(t[0])
-#     print h, "h"
+#     #print h, "h"
     m = int(t[1])
-#     print m, "m"
+#     #print m, "m"
     hDegree = (30)*h
     
 #     hDegree = (24.0/h)*3-60
     hMinute = 30*(float(m/60.0))
-#     print "timey wimey"
-#     print h, hDegree, "h, hDegree"
-#     print m, hMinute, "m, hMinute"
+#     #print "timey wimey"
+#     #print h, hDegree, "h, hDegree"
+#     #print m, hMinute, "m, hMinute"
 #check for less than or greater than 1 hour 
     if hDegree == 0:
         position = (hDegree - hMinute) #less than 30 degrees
     else:
         position =  (hDegree + hMinute) #more than 30 degrees
-#     print "position", position 
+#     #print "position", position 
     return position
 
 def clockPositionNight(time):
-#     print time
+#     #print time
     clockY = str(nightTime/12)
-#     print clockY
+#     #print clockY
     t = clockY.split(":")
-#     print t
+#     #print t
     h = int(t[0])
-#     print h
+#     #print h
     m = int(t[1])
-#     print m
+#     #print m
     hDegree = (30*h)
     
 #     hDegree = (24.0/h)*3-60
     hMinute = 30*(float(m/60.0))
-#     print "timey wimey"
-#     print h, hDegree
-#     print m, hMinute
+#     #print "timey wimey"
+#     #print h, hDegree
+#     #print m, hMinute
 #check for less than or greater than 1 hour 
     if hDegree == 0:
         position = (hDegree - hMinute) #less than 30 degrees
     else:
         position =  (hDegree + hMinute) #more than 30 degrees
-#     print "position", position 
+#     #print "position", position 
     return position
 
 
@@ -667,7 +679,7 @@ def zodiacDegree(planetPosition):
 def retroCheck(planetPosition, planetPositionD):
     if planetPosition < planetPositionD:
         retro = True
-        print "RETROGRADE",planetPosition
+        #print "RETROGRADE",planetPosition
     else: 
         retro = False
     return retro
@@ -703,6 +715,17 @@ def planetaryColor(planet):
     return color
 
 def App():
+    
+    canvas.delete("all")
+    
+    global prev_entry
+    global this_entry
+    
+    prev_entry = this_entry
+    this_entry = chron.clock()
+    interval = this_entry - prev_entry
+    
+    log.logMsg("Top of app(): " + repr(interval))
     h = Hours() 
     
     #offset 90 moves Aries 0 to 12 o'clock  position
@@ -791,18 +814,18 @@ def App():
     XI = h.hourEleven(sunSet, planetaryHourNightLength, todaysDay, localtime)
     XII = h.hourTwelve(sunSet, planetaryHourNightLength, todaysDay, localtime)
     
-#     print I[1],I[2].strftime("%H:%M"),I[3].strftime("%H:%M"),"/n",
-#     print II[1],II[2].strftime("%H:%M"),II[3].strftime("%H:%M"),II[4],II[5],"/n",
-#     print III[1],III[2].strftime("%H:%M"),III[3].strftime("%H:%M"),III[4],III[5],"/n",
-#     print IV[1],IV[2].strftime("%H:%M"),IV[3].strftime("%H:%M"),IV[4],IV[5],"/n",
-#     print V[1],V[2].strftime("%H:%M"),V[3].strftime("%H:%M"),V[4],V[5],"/n",
-#     print VI[1],VI[2].strftime("%H:%M"),VI[3].strftime("%H:%M"),VI[4],VI[5],"/n",
-#     print VII[1],VII[2].strftime("%H:%M"),VII[3].strftime("%H:%M"),VII[4],VII[5],"/n",
-#     print VIII[1],VIII[2].strftime("%H:%M"),VIII[3].strftime("%H:%M"),VIII[4],VIII[5],"/n",
-#     print IX[1],IX[2].strftime("%H:%M"),IX[3].strftime("%H:%M"),IX[4],IX[5],"/n",
-#     print X[1],X[2].strftime("%H:%M"),X[3].strftime("%H:%M"),X[4],X[5],"/n",
-#     print XI[1],XI[2].strftime("%H:%M"),XI[3].strftime("%H:%M"),XI[4],XI[5],"/n",
-#     print XII[1],XII[2].strftime("%H:%M"),XII[3].strftime("%H:%M"),XII[4],XII[5],"/n",
+#     #print I[1],I[2].strftime("%H:%M"),I[3].strftime("%H:%M"),"/n",
+#     #print II[1],II[2].strftime("%H:%M"),II[3].strftime("%H:%M"),II[4],II[5],"/n",
+#     #print III[1],III[2].strftime("%H:%M"),III[3].strftime("%H:%M"),III[4],III[5],"/n",
+#     #print IV[1],IV[2].strftime("%H:%M"),IV[3].strftime("%H:%M"),IV[4],IV[5],"/n",
+#     #print V[1],V[2].strftime("%H:%M"),V[3].strftime("%H:%M"),V[4],V[5],"/n",
+#     #print VI[1],VI[2].strftime("%H:%M"),VI[3].strftime("%H:%M"),VI[4],VI[5],"/n",
+#     #print VII[1],VII[2].strftime("%H:%M"),VII[3].strftime("%H:%M"),VII[4],VII[5],"/n",
+#     #print VIII[1],VIII[2].strftime("%H:%M"),VIII[3].strftime("%H:%M"),VIII[4],VIII[5],"/n",
+#     #print IX[1],IX[2].strftime("%H:%M"),IX[3].strftime("%H:%M"),IX[4],IX[5],"/n",
+#     #print X[1],X[2].strftime("%H:%M"),X[3].strftime("%H:%M"),X[4],X[5],"/n",
+#     #print XI[1],XI[2].strftime("%H:%M"),XI[3].strftime("%H:%M"),XI[4],XI[5],"/n",
+#     #print XII[1],XII[2].strftime("%H:%M"),XII[3].strftime("%H:%M"),XII[4],XII[5],"/n",
     
     nightS = ("planetaryHourNightLength:", planetaryHourNightLength,"\n",
               localtime,"\n",
@@ -819,32 +842,32 @@ def App():
               XI[1],XI[2].strftime("%H:%M"),XI[3].strftime("%H:%M"),XI[5],"\n",
               XII[1],XII[2].strftime("%H:%M"),XII[3].strftime("%H:%M"),XII[5],"\n")
     
-    print planetaryColor(I[1])
+    #print planetaryColor(I[1])
     
-#     print  planetaryHourDayLength
-#     print (sunRise)
-#     print sunSet
-#     print sunDegree(sunRise, planetaryHourDayLength), "sunDegree"
+#     #print  planetaryHourDayLength
+#     #print (sunRise)
+#     #print sunSet
+#     #print sunDegree(sunRise, planetaryHourDayLength), "sunDegree"
     sunUp = (offSet+75) - sunDegree(sunRise, planetaryHourDayLength)
-    print sunUp, "sunUp"
-#     print clockPosition(dI[2].strftime("%H:%M"))
-#     print "start", clockPosition(dI[2].strftime("%H:%M"))+offSet 
-#     print "end", clockPosition(dI[3].strftime("%H:%M"))+offSet
+    #print sunUp, "sunUp"
+#     #print clockPosition(dI[2].strftime("%H:%M"))
+#     #print "start", clockPosition(dI[2].strftime("%H:%M"))+offSet 
+#     #print "end", clockPosition(dI[3].strftime("%H:%M"))+offSet
     sunUpPlus = pHourDegree(planetaryHourDayLength)
-#     print sunUpPlus, "sunUpPlus"
+#     #print sunUpPlus, "sunUpPlus"
 #     sunDown = (offSet/2) - sunDegree(sunSet, planetaryHourNightLength)
     sunDown = (-sunDegree(sunSet, planetaryHourNightLength)-(3*offSet) )-25.5-0.010409712
    
-    print pHourDegree(planetaryHourDayLength), "pHourDegree"
-    print pNightDegree(planetaryHourNightLength) , "pNightDegree"
+    #print pHourDegree(planetaryHourDayLength), "pHourDegree"
+    #print pNightDegree(planetaryHourNightLength) , "pNightDegree"
 
     sunDownPlus = pNightDegree(planetaryHourNightLength)
-#     print sunDown, "sunDown"
-#     print sunDownPlus , "sunDownPlus"
-#     print (sunDownPlus - sunDown )
+#     #print sunDown, "sunDown"
+#     #print sunDownPlus , "sunDownPlus"
+#     #print (sunDownPlus - sunDown )
     
     time = datetime.datetime.now().strftime("Time: %H:%M:%S")
-    print time, "this is the mofo"
+    #print time, "this is the mofo"
     hour = int(datetime.datetime.now().strftime("%H"))
     minute = int(datetime.datetime.now().strftime("%M"))
     second = int(datetime.datetime.now().strftime("%S"))
@@ -852,13 +875,13 @@ def App():
 
     dtime = datetime.datetime(year, month, day, hour, minute, second, 0, pyastro.UTC())
     dtimeYesterday = datetime.datetime(year, month, day-1, hour, minute, second, 0, pyastro.UTC())
-    # print year
-    # print month
-    # print day
-    # print hour 
-    # print minute
-    print dtime, "dtime now"
-    print dtimeYesterday, "dtimeYesterday"
+    # #print year
+    # #print month
+    # #print day
+    # #print hour 
+    # #print minute
+    #print dtime, "dtime now"
+    #print dtimeYesterday, "dtimeYesterday"
 #     break
     mon = pyastro.Moon(dtime)
     mer = pyastro.Mercury(dtime)
@@ -896,7 +919,7 @@ def App():
 #     plutoOffset = 0
     
     monrasc = (mon.right_ascension(formatted=False)) + moonOffset
-#     print monrasc
+#     #print monrasc
     merrasc = (mer.right_ascension(formatted=False)) + mercuryOffset
     venrasc = (ven.right_ascension(formatted=False)) + venusOffset
     solrasc = (sol.right_ascension(formatted=False)) + solOffset
@@ -957,16 +980,16 @@ def App():
     plutoPositionD = pyastro.rasc_to_zodiac(plurascD)
     
     
-    print "Moon:    ",moonPosition 
-    print "Mercury: ",mercuryPosition
-    print "Venus:   ",venusPosition 
-    print "Sun:     ",solPosition 
-    print "Mars:    ",marsPosition
-    print "Jupiter: ",jupiterPosition
-    print "Saturn:  ",saturnPosition
-    print "Neptune: ",neptunePosition
-    print "Uranus:  ",uranusPosition 
-    print "Pluto:   ",plutoPosition 
+    #print "Moon:    ",moonPosition 
+    #print "Mercury: ",mercuryPosition
+    #print "Venus:   ",venusPosition 
+    #print "Sun:     ",solPosition 
+    #print "Mars:    ",marsPosition
+    #print "Jupiter: ",jupiterPosition
+    #print "Saturn:  ",saturnPosition
+    #print "Neptune: ",neptunePosition
+    #print "Uranus:  ",uranusPosition 
+    #print "Pluto:   ",plutoPosition 
     
 #     planetPos = ("Moon:    ",moonPosition,"\n", 
 #                  "Mercury: ",mercuryPosition,"\n",
@@ -1031,17 +1054,17 @@ def App():
      
 
     
-    print hour, minute, "hour, minute"
+    #print hour, minute, "hour, minute"
     hourLargeDegree = -((360/12)*hour)
-    print hourLargeDegree, "hourLargeDegree"
-#     print minute
+    #print hourLargeDegree, "hourLargeDegree"
+#     #print minute
     
     hourSmallDegree = float(minute/60.0)*-30.0
-    print hourSmallDegree, "hourSmallDegree"
+    #print hourSmallDegree, "hourSmallDegree"
     #     hourHand = -((360/12)*hour)+(-30*(minute/60))
     hourHand = hourLargeDegree + hourSmallDegree
     
-#     print "hourHand", hourHand
+#     #print "hourHand", hourHand
     minuteHand = -((360/60)*minute) + (float(second/60.0)*-6.0)
     secondHand = -((360/60)*second)
 
@@ -1066,28 +1089,28 @@ def App():
         
         canvas.create_circle_arc(950, 500, 473, fill="#0000FF", outline="#000000", start=m-1, end=m)
 #         m=m+6
-#         print (m)
+#         #print (m)
  
 #  hour tick  
     for m in range(0,360,30): 
         
         canvas.create_circle_arc(950, 500, 490, fill="#000000", outline="#000000", start=m-1, end=m)
 #         m=m+6
-#         print (m)
+#         #print (m)
 
 #sub hour tick 
     for m in range(0,360,15): 
         
         canvas.create_circle_arc(950, 500,485, fill="#000000", outline="#000000", start=m, end=m)
 #         m=m+6
-#         print (m)
+#         #print (m)
 
 #sub hour tick 
     for m in range(0,360,1): 
         
         canvas.create_circle_arc(950, 500,465, fill="#000000", outline="#000000", start=m, end=m)
 #         m=m+6
-#         print (m)
+#         #print (m)
 #sub hour tick 
 
     canvas.create_circle_arc(950, 500,475, fill="#000000", outline="#000000", start=7.5, end=7.5)
@@ -1253,14 +1276,14 @@ def App():
         
         canvas.create_circle_arc(950, 500, 380, fill="#000000", outline="darkgray", start=m, end=m)
 #         m=m+6
-#        print (m)
+#        #print (m)
 
 #  decan small tick  
     for m in range(0,360,1): 
         
         canvas.create_circle_arc(950, 500, 350, fill="#000000", outline="darkgray", start=m, end=m)
 #         m=m+6
-#        print (m)
+#        #print (m)
 
 
 #offsets
@@ -1276,7 +1299,7 @@ def App():
     offsetB = -90 #-10, 69
     
 #     offsetB = 90
-    print offsetB, "offsetB"
+    #print offsetB, "offsetB"
     
     offsetC = -90 #-6, 270
     
@@ -1288,22 +1311,22 @@ def App():
 #previous night hours
 
 #     theSunWasUp = sunDegree(lastSunSet, lastPlanetaryHourNightLength)
-    print "lastSunSet"
-    print lastSunSet.hour, lastSunSet.minute
+    #print "lastSunSet"
+    #print lastSunSet.hour, lastSunSet.minute
     lastSunHourLargeDegree = -((360/12)*lastSunSet.hour)
-    print lastSunHourLargeDegree, "lastSunHourLargeDegree"
+    #print lastSunHourLargeDegree, "lastSunHourLargeDegree"
 
     lastSunHourSmallDegree = float(lastSunSet.minute/60.0)*-30.0
-    print lastSunHourSmallDegree, "lastSunHourSmallDegree"
+    #print lastSunHourSmallDegree, "lastSunHourSmallDegree"
     lastSunHourHand = lastSunHourLargeDegree + lastSunHourSmallDegree
 #     lastSunMinuteHand = -((360/60)*lastSunSet.minute) + (float(lastSunSet.second/60.0)*-6.0)
 #     lastSunSecondHand = -((360/60)*lastSunSet.second)
 #     
     theSunWasUp = lastSunHourHand - offsetC
     
-    print theSunWasUp ,"theSunWasUp"
-    print theSunWasUp + offsetC,"theSunWasUp + offsetC"
-    print abs(clockPositionNight(lastPlanetaryHourNightLength)),"abs(clockPositionNight(lastPlanetaryHourNightLength))"
+    #print theSunWasUp ,"theSunWasUp"
+    #print theSunWasUp + offsetC,"theSunWasUp + offsetC"
+    #print abs(clockPositionNight(lastPlanetaryHourNightLength)),"abs(clockPositionNight(lastPlanetaryHourNightLength))"
     
 #     
     canvas.create_circle_arc(950, 500, 340, fill=planetaryColor(pI[1]), 
@@ -1364,19 +1387,19 @@ def App():
                              start= (theSunWasUp+  (11*clockPositionNight(lastPlanetaryHourNightLength))), 
                              end=(theSunWasUp+  (12*clockPositionNight(lastPlanetaryHourNightLength))))
 
-#     print sunRise
-#     print clockPosition(planetaryHourDayLength), "clockPosition(sunRise)"
+#     #print sunRise
+#     #print clockPosition(planetaryHourDayLength), "clockPosition(sunRise)"
 
 #day hours
   
 #     theSunIsUp = sunDegree(sunRise, planetaryHourDayLength)
-    print "sunRise"
-    print sunRise.hour, sunRise.minute
+    #print "sunRise"
+    #print sunRise.hour, sunRise.minute
     sunHourLargeDegree = -((360/12)*sunRise.hour)
-    print sunHourLargeDegree, "sunHourLargeDegree"
+    #print sunHourLargeDegree, "sunHourLargeDegree"
 
     sunHourSmallDegree = float(sunRise.minute/60.0)*-30.0
-    print sunHourSmallDegree, "sunHourSmallDegree"
+    #print sunHourSmallDegree, "sunHourSmallDegree"
     sunHourHand = sunHourLargeDegree + sunHourSmallDegree
 #     sunMinuteHand = -((360/60)*sunRise.minute) + (float(sunRise.second/60.0)*-6.0)
 #     sunSecondHand = -((360/60)*sunRise.second)
@@ -1384,9 +1407,9 @@ def App():
     theSunIsUp = sunHourHand -offsetB
     
     
-    print theSunIsUp, "theSunIsUp"
-    print planetaryHourDayLength, "planetaryHourDayLength"
-    print abs(clockPosition(planetaryHourDayLength)), "abs(clockPosition(planetaryHourDayLength))"
+    #print theSunIsUp, "theSunIsUp"
+    #print planetaryHourDayLength, "planetaryHourDayLength"
+    #print abs(clockPosition(planetaryHourDayLength)), "abs(clockPosition(planetaryHourDayLength))"
     canvas.create_circle_arc(950, 500, 320, 
                              fill = planetaryColor(dI[0]), 
                              outline ="#000000", tags="hours",
@@ -1444,28 +1467,28 @@ def App():
                              outline="#000000", tags="hours",
                              start=(theSunIsUp -  (11*clockPosition(planetaryHourDayLength))),
                             end=(theSunIsUp -  (12*clockPosition(planetaryHourDayLength))))
-# # #     print "sunset", ((sunUp)-(12 * sunUpPlus))
+# # #     #print "sunset", ((sunUp)-(12 * sunUpPlus))
 #     
 # #night hours
 # # 
 #     theSunIsDown = sunDegree(sunSet, planetaryHourNightLength)
 #     theSunIsDown = (offsetB - offsetD - theSunIsUp - (12*clockPosition(planetaryHourDayLength))) 
-    print "sunSet"
-    print sunSet.hour, sunSet.minute
+    #print "sunSet"
+    #print sunSet.hour, sunSet.minute
     sunSetHourLargeDegree = -((360/12)*sunSet.hour)
-    print lastSunHourLargeDegree, "sunHourLargeDegree"
+    #print lastSunHourLargeDegree, "sunHourLargeDegree"
 
     sunSetHourSmallDegree = float(sunSet.minute/60.0)*-30.0
-    print sunSetHourSmallDegree, "sunSetHourSmallDegree"
+    #print sunSetHourSmallDegree, "sunSetHourSmallDegree"
     sunSetHourHand = sunSetHourLargeDegree + sunSetHourSmallDegree
 #     sunSetMinuteHand = -((360/60)*sunSet.minute) + (float(sunSet.second/60.0)*-6.0)
 #     sunSetSecondHand = -((360/60)*sunSet.second)
     
     theSunIsDown =  sunSetHourHand - offsetD
      
-    print theSunIsDown, "theSunIsDown"
-#     print theSunIsDown , "theSunIsDown + 720"
-    print abs(clockPositionNight(planetaryHourNightLength)),"abs(clockPositionNight(planetaryHourNightLength))"
+    #print theSunIsDown, "theSunIsDown"
+#     #print theSunIsDown , "theSunIsDown + 720"
+    #print abs(clockPositionNight(planetaryHourNightLength)),"abs(clockPositionNight(planetaryHourNightLength))"
     
     canvas.create_circle_arc(950, 500, 290, 
                             fill=planetaryColor(I[1]), 
@@ -1542,7 +1565,7 @@ def App():
          
         canvas.create_circle_arc(950, 500,275, fill="#000000", outline="#000000", start=m, end=m)
 #         m=m+6
-#         print (m)
+#         #print (m)
  
 #sub hour tick 
 #     for m in range(0,360,15): 
@@ -1603,19 +1626,24 @@ def App():
     canvas.create_text(1500,900, tags = "label2",text = (planetPosD))
     
     
-    root.wm_title("astronomical lunar mansion clock")
-    root.update_idletasks()
-    root.after(1000, App)
+    
+    #root.update_idletasks()
+    #root.after(1000, App)
     return
 
 
 
 
-App() 
+#App() 
 
-root.update_idletasks()
-root.after(1000, App)
-root.mainloop() 
+#root.update_idletasks()
+#root.after(1000, App)
+#root.mainloop()
+
+while True:
+    root.update_idletasks()
+    root.update() 
+    App()
 
 
 #  
