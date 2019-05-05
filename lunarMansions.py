@@ -147,7 +147,7 @@ sunLoc = m.ra, m.dec
 
 
 a = Astral()
-a.geocoder.add_locations([("Spruce Creek","USA",40.646256,-78.090935,"US/Central",282)])
+a.geocoder.add_locations([("Spruce Creek","USA",40.646256,-78.090935,"US/Eastern",282)])
 a.solar_depression = 'civil'
 
 city = a[city_name]
