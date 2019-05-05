@@ -1628,7 +1628,7 @@ def App():
     
     
     #root.update_idletasks()
-    #root.after(1000, App)
+    root.after(1000, App)
     return
 
 
@@ -1639,11 +1639,11 @@ def App():
 #root.update_idletasks()
 #root.after(1000, App)
 #root.mainloop()
+App()
 
 while True:
     root.update_idletasks()
     root.update() 
-    App()
 
 
 #  
