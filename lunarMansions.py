@@ -1455,7 +1455,7 @@ def App():
                              outline="#000000", tags="hours",
                              start=(theSunIsUp -  (8*clockPosition(planetaryHourDayLength))),
                             end=(theSunIsUp -  (9*clockPosition(planetaryHourDayLength))))
-    canvas.create_circle_arc(950, 500, 320, fill=planetaryColor(dX[0]), 
+    canvas.create_circle_arc(950, 500, 310, fill=planetaryColor(dX[0]), 
                              outline="#000000", tags="hours",
                              start=(theSunIsUp -  (9*clockPosition(planetaryHourDayLength))),
                             end=(theSunIsUp -  (10*clockPosition(planetaryHourDayLength))))
