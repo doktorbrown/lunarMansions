@@ -1,19 +1,12 @@
 '''
-Created on Feb 1, 2019
-
-@author: catawbafellini
-
 Created on Nov 22, 2018 
 
 @author: catawbafellini
 
-Created on March 6, 2018 
+Modified on Jun 21, 2019 
 
 @author: catawbafellini
 
-Created on April 27, 2018
-
-@author: catawbafellini
 '''
 
 
@@ -894,20 +887,20 @@ def App():
     ura = pyastro.Uranus(dtime)
     plu = pyastro.Pluto(dtime)
     
-# #planetary correction offsets 03.19.19
-    moonOffset = 0.23 #vernal equinox full moon calibration 0.23  03.20.19
-    mercuryOffset = 0.47
-    venusOffset = -2.04
-    solOffset = 0.28
-    marsOffset =  3.03
-    jupiterOffset = 0.85
-    saturnOffset = -1.3
-    neptuneOffset = -0.6
-    uranusOffset = 1.25
-    plutoOffset = -1.62
+# # #planetary correction offsets 03.19.19
+#     moonOffset = 0.23 #vernal equinox full moon calibration 0.23  03.20.19
+#     mercuryOffset = 0.47
+#     venusOffset = -2.04
+#     solOffset = 0.28
+#     marsOffset =  3.03
+#     jupiterOffset = 0.85
+#     saturnOffset = -1.3
+#     neptuneOffset = -0.6
+#     uranusOffset = 1.25
+#     plutoOffset = -1.62
 
-#planetary correction offsets 04.04.19
-#     moonOffset = 0 #vernal equinox full moon calibration 0.23  03.20.19
+# planetary correction offsets zero
+#     moonOffset = 0 #used to check with no offset
 #     mercuryOffset = 0
 #     venusOffset = 0
 #     solOffset = 0
@@ -917,6 +910,19 @@ def App():
 #     neptuneOffset = 0
 #     uranusOffset = 0
 #     plutoOffset = 0
+
+# # #planetary correction offsets from 0 offset 06.21.19
+    moonOffset = -1.8417 #solstice calculation against morinus 06.21.19 0729
+    mercuryOffset = -1.6356
+    venusOffset = 1.7028
+    solOffset = 0.4761
+    marsOffset =  -1.6486
+    jupiterOffset = 1.2978
+    saturnOffset = -1.2942
+    neptuneOffset = -0.3925
+    uranusOffset = 1.4167
+    plutoOffset = -1.5967
+
     
     monrasc = (mon.right_ascension(formatted=False)) + moonOffset
 #     #print monrasc
