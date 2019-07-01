@@ -3,7 +3,7 @@ Created on Nov 22, 2018
 
 @author: catawbafellini
 
-Modified on Jun 21, 2019 
+Modified on Jul 1, 2019 
 
 @author: catawbafellini
 
@@ -867,7 +867,13 @@ def App():
     #positions
 
     dtime = datetime.datetime(year, month, day, hour, minute, second, 0, pyastro.UTC())
-    dtimeYesterday = datetime.datetime(year, month, day-1, hour, minute, second, 0, pyastro.UTC())
+    
+    try:
+        
+        dtimeYesterday = datetime.datetime(year, month, day-1, hour, minute, second, 0, pyastro.UTC())
+    except:
+        dtimeYesterday = datetime.datetime(year, month-1, 30, hour, minute, second, 0, pyastro.UTC())
+        
     # #print year
     # #print month
     # #print day
