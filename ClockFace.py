@@ -32,7 +32,7 @@ class ClockFace():
         self.ClockFace = []
         
     def display(self,canvas):
-        canvas.delete("all")#deletes left side info
+    #    canvas.delete("all")#deletes left side info
         
             #offset 90 moves Aries 0 to 12 o'clock  position
     #     offSet = 0
