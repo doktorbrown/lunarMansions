@@ -7,7 +7,7 @@ This is a simple astronomical clock based on pyastro and astral libraries.  The 
 Updates Sep 28, 2019:
 A bug related to daylight vs. nighttime was discovered with the equinox.  As a result, lunarMansions.py has been frozen as of the July 1, 2019.
 
-The current working and modulized App.py is where the main display loop occurs.  Just be sure other python files are in the same directory.
+The current working and modulized App.py is where the main display loop occurs.  Just be sure other python files are in the same directory.  "python App.py" will run things.
 
 Visually, the center black circle was changed to white to quickly differentiate this version. 
 
